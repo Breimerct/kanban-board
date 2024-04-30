@@ -30,3 +30,6 @@ package-lock.json
 
 # Dependency directories
 .firebase/
+
+# Output of 'npm pack'
+.env.local
