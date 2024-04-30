@@ -8,8 +8,7 @@ import {
    GithubAuthProvider,
    onAuthStateChanged,
    signInWithRedirect,
-   signOut,
-   signInWithPopup
+   signOut
 } from 'firebase/auth';
 
 // Import environment variables
@@ -36,16 +35,14 @@ const firebaseConfig = {
 const provider = new GithubAuthProvider();
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-export const auth = getAuth.bind(app);
+const auth = getAuth(app);
 
 //#region Functions
-export const getProviderResult = getRedirectResult.bind(null, auth());
+export const getProviderResult = getRedirectResult.bind(null, auth);
 
-export const signInWithGitHub = signInWithRedirect.bind(null, auth(), provider);
+export const signInWithGitHub = signInWithRedirect.bind(null, auth, provider);
 
-export const signInWithPopupGitHub = signInWithPopup.bind(null, auth(), provider);
-
-export const logout = signOut.bind(null, auth());
+export const logout = signOut.bind(null, auth);
 
 export const setDB: SetDB = (path, data) => {
    return set(ref(db, path), data);
@@ -56,4 +53,4 @@ export const getDB: GetDB = (path, snapshot, error) => {
    onValue(starCountRef, snapshot, error);
 };
 
-export const authStateChanged: AuthStateChanged = (callback, error) => onAuthStateChanged(auth(), callback, error);
+export const authStateChanged: AuthStateChanged = (callback, error) => onAuthStateChanged(auth, callback, error);

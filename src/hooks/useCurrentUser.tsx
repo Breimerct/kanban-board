@@ -6,20 +6,15 @@ type CurrentUser = User | null;
 
 const useCurrentUser = () => {
    const [currentUser, setCurrentUser] = useState<CurrentUser>(null);
+   const [error, setError] = useState<Error | null>(null);
 
    useEffect(() => {
-      const unsubscribe = authStateChanged((user: CurrentUser) => {
-         if (user) {
-            setCurrentUser(user);
-         } else {
-            setCurrentUser(null);
-         }
-      });
+      const unsubscribe = authStateChanged(setCurrentUser, setError);
 
       return unsubscribe;
    }, []);
 
-   return currentUser;
+   return [currentUser, error];
 };
 
 export default useCurrentUser;
