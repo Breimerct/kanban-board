@@ -1,17 +1,59 @@
-// Import the functions you need from the SDKs you need
+//#region Imports
+// Import firebase modules
 import { initializeApp } from 'firebase/app';
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getDatabase, onValue, ref, set } from 'firebase/database';
+import {
+   getAuth,
+   getRedirectResult,
+   GithubAuthProvider,
+   onAuthStateChanged,
+   signInWithRedirect,
+   signOut,
+   signInWithPopup
+} from 'firebase/auth';
 
-// Your web app's Firebase configuration
+// Import environment variables
+import {
+   VITE_FB_APP_ID,
+   VITE_FB_APY_KEY,
+   VITE_FB_AUTH_DOMAIN,
+   VITE_FB_MESSAGING_SENDER_ID,
+   VITE_FB_PROJECT_ID,
+   VITE_FB_STORAGE_BUCKET
+} from '../consts/env';
+import { type AuthStateChanged, type GetDB, type SetDB } from 'src/types/types';
+//#endregion
+
 const firebaseConfig = {
-   apiKey: 'AIzaSyA2ujKz5Kxjk_wopkFhG4h-2q7QYEE3-W8',
-   authDomain: 'kanban-board-bre.firebaseapp.com',
-   projectId: 'kanban-board-bre',
-   storageBucket: 'kanban-board-bre.appspot.com',
-   messagingSenderId: '384541875294',
-   appId: '1:384541875294:web:a96348704aeb18a7af68cf'
+   apiKey: VITE_FB_APY_KEY,
+   authDomain: VITE_FB_AUTH_DOMAIN,
+   projectId: VITE_FB_PROJECT_ID,
+   storageBucket: VITE_FB_STORAGE_BUCKET,
+   messagingSenderId: VITE_FB_MESSAGING_SENDER_ID,
+   appId: VITE_FB_APP_ID
 };
 
-// Initialize Firebase
-export const app = initializeApp(firebaseConfig);
+const provider = new GithubAuthProvider();
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+export const auth = getAuth.bind(app);
+
+//#region Functions
+export const getProviderResult = getRedirectResult.bind(null, auth());
+
+export const signInWithGitHub = signInWithRedirect.bind(null, auth(), provider);
+
+export const signInWithPopupGitHub = signInWithPopup.bind(null, auth(), provider);
+
+export const logout = signOut.bind(null, auth());
+
+export const setDB: SetDB = (path, data) => {
+   return set(ref(db, path), data);
+};
+
+export const getDB: GetDB = (path, snapshot, error) => {
+   const starCountRef = ref(db, path);
+   onValue(starCountRef, snapshot, error);
+};
+
+export const authStateChanged: AuthStateChanged = (callback, error) => onAuthStateChanged(auth(), callback, error);
