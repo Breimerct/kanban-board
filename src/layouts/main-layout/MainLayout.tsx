@@ -1,5 +1,5 @@
 //#region Imports
-import './main-layout.scss';
+import './MainLayout.scss';
 import { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 
