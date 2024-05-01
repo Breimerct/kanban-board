@@ -50,7 +50,7 @@ export const setDB: SetDB = (path, data) => {
 
 export const getDB: GetDB = (path, snapshot, error) => {
    const starCountRef = ref(db, path);
-   onValue(starCountRef, snapshot, error);
+   return onValue(starCountRef, snapshot, error);
 };
 
 export const authStateChanged: AuthStateChanged = (callback, error) => onAuthStateChanged(auth, callback, error);
