@@ -33,3 +33,6 @@ package-lock.json
 
 # Output of 'npm pack'
 .env.local
+
+# dotenv environment variables file
+db
