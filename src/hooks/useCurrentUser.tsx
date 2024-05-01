@@ -14,7 +14,10 @@ const useCurrentUser = () => {
       return unsubscribe;
    }, []);
 
-   return [currentUser, error];
+   return {
+      currentUser,
+      error
+   };
 };
 
 export default useCurrentUser;

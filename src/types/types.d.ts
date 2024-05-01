@@ -12,5 +12,17 @@ export type AuthStateChanged = (callback: (user: User | null) => void, error?: (
 
 export type Board = {
    id: string;
-   name: string;
+   title: string;
+};
+
+export type Status = {
+   id: string;
+   title: string;
+   color: string;
+};
+
+export type Task = {
+   id: string;
+   title: string;
+   description: string;
 };

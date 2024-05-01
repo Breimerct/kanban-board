@@ -1,66 +1,47 @@
 import { useParams } from 'react-router-dom';
-import AddNewColumn from '../../components/add-new-column/AddNewColumn';
-import Tasks from '../../components/tasks/Tasks';
 
-type Status = {
-   id: number;
-   name: string;
-   color: string;
-};
+import AddNewColumn from '../../components/add-new-column/AddNewColumn';
+import Column from '../../components/column/Column';
+import { useEffect, useState } from 'react';
+import { getDB } from '../../plugins/firebase';
+import { Status } from '../../types/types';
 
 const Board = () => {
    const { id } = useParams<{ id: string }>();
+   const [statusData, setStatusData] = useState<[string, Status][]>([]);
 
-   const status: Record<string, Status[]> = {
-      '1': [
-         {
-            id: 1,
-            name: 'To Do',
-            color: 'bg-red-500'
+   useEffect(() => {
+      getDB(
+         `statuses/${id}`,
+         (snapshot) => {
+            const statusData = snapshot.val() as Record<string, Status>;
+
+            const statusDataArray = Object.entries(statusData || {});
+
+            setStatusData(statusDataArray);
          },
-         {
-            id: 2,
-            name: 'In Progress',
-            color: 'bg-yellow-500'
-         },
-         {
-            id: 3,
-            name: 'Done',
-            color: 'bg-green-500'
-         },
-         {
-            id: 4,
-            name: 'Review',
-            color: 'bg-blue-500'
+         (error) => {
+            console.log(error);
          }
-      ]
-   };
+      );
+   }, [id]);
 
    return (
-      <ul className="h-full p-4 flex flex-row gap-10 overflow-auto overflow-x-auto overflow-y-hidden">
-         {id &&
-            status[id]?.length &&
-            status[id].map((statusItem) => (
-               <li
-                  role="card"
-                  key={statusItem.id}
-                  className="block max-h-[inherit] p-4 bg-gray-200 shadow-md rounded-md"
-               >
-                  <div role="card-item" className="w-80 min-w-full">
-                     <header className="flex items-center justify-between">
-                        <h3 className="font-bold text-gray-500 text-lg">{statusItem.name}</h3>
-                        <span className={`w-4 h-4 rounded-full ${statusItem?.color} dark:text-white`}></span>
-                     </header>
+      <div className="h-full flex flex-col">
+         <header className="p-4 pb-5 flex justify-end items-center">
+            <button className="px-4 py-2 text-white bg-blue-500 rounded-md">Add Task</button>
+         </header>
 
-                     <main className="mt-4">
-                        <Tasks statusId={statusItem.id.toString()} />
-                     </main>
-                  </div>
-               </li>
-            ))}
+         <div className="w-full h-full relative overflow-x-auto overflow-y-hidden scroll-smooth pb-4 mb-4">
+            <ol className="h-full p-4 flex flex-row gap-10 overflow-x-auto overflow-y-hidden absolute top-0 left-0">
+               {!!id &&
+                  !!statusData?.length &&
+                  statusData.map(([statusId, statusItem]) => <Column key={statusId} column={statusItem} />)}
 
-         <AddNewColumn />
-      </ul>
+               <AddNewColumn />
+            </ol>
+         </div>
+      </div>
    );
 };
 
