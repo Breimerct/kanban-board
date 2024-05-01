@@ -20,7 +20,7 @@ import {
    VITE_FB_PROJECT_ID,
    VITE_FB_STORAGE_BUCKET
 } from '../consts/env';
-import { type AuthStateChanged, type GetDB, type SetDB } from '../types/types';
+import { type AuthStateChanged, type GetDB, type SetDB } from '../types';
 //#endregion
 
 const firebaseConfig = {
@@ -33,9 +33,9 @@ const firebaseConfig = {
 };
 
 const provider = new GithubAuthProvider();
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const auth = getAuth(app);
+export const app = initializeApp(firebaseConfig);
+const db = getDatabase();
+const auth = getAuth();
 
 //#region Functions
 export const getProviderResult = getRedirectResult.bind(null, auth);
@@ -45,7 +45,14 @@ export const signInWithGitHub = signInWithRedirect.bind(null, auth, provider);
 export const logout = signOut.bind(null, auth);
 
 export const setDB: SetDB = (path, data) => {
-   return set(ref(db, path), data);
+   return new Promise((resolve, reject) => {
+      try {
+         set(ref(db, path), data);
+         resolve(true);
+      } catch (error) {
+         reject(error);
+      }
+   });
 };
 
 export const getDB: GetDB = (path, snapshot, error) => {

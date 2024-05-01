@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef } from 'react';
 
 import Tasks from '../tasks/Tasks';
-import { Status } from '../../types/types';
+import { Status } from '../../types';
 
 interface ColumnProps {
    column: Status;

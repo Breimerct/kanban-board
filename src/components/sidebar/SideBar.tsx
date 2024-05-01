@@ -1,4 +1,4 @@
-import { Board } from '../../types/types';
+import { Board } from '../../types';
 import { FC } from 'react';
 import RouteItem from '../route-item/RouteItem';
 

@@ -1,6 +1,6 @@
 //#region Imports
 import './MainLayout.scss';
-import { Board } from '../../types/types';
+import { Board } from '../../types';
 import { FC, useEffect, useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { getDB, signInWithGitHub, logout } from '../../plugins/firebase';
@@ -9,7 +9,7 @@ import KanbanBoard from '/kanban.svg';
 import KanbanBoardDark from '/kanban-dark-mode.svg';
 import SideBar from '../../components/sidebar/SideBar';
 import useCurrentUser from '../../hooks/useCurrentUser';
-import Modal from '../../components/modal/Modal';
+import NewBoard from '../../components/new-board/NewBoard';
 //#endregion
 
 const MainLayout: FC = () => {
@@ -17,7 +17,7 @@ const MainLayout: FC = () => {
    const { hash: routeHash } = useLocation();
    const navigate = useNavigate();
    const [boards, setBoards] = useState<[string, Board][]>([]);
-   const [showCreateBoard, setShowCreateBoard] = useState(false);
+   const [showNewBoard, setShowNewBoard] = useState(false);
 
    const handleLogin = async () => {
       await signInWithGitHub();
@@ -27,9 +27,13 @@ const MainLayout: FC = () => {
       logout();
    };
 
+   const handleCloseNewBoard = () => {
+      navigate('/');
+   };
+
    useEffect(() => {
-      setShowCreateBoard(routeHash === '#create-board');
-      console.log(routeHash, routeHash === '#create-board');
+      const isNewBoard = routeHash === '#new-board';
+      setShowNewBoard(isNewBoard);
    }, [routeHash]);
 
    useEffect(() => {
@@ -86,16 +90,7 @@ const MainLayout: FC = () => {
             </main>
          </div>
 
-         <Modal
-            title="Create a new board"
-            isOpen={showCreateBoard}
-            onClose={() => {
-               setShowCreateBoard(false);
-               navigate('/');
-            }}
-         >
-            <h1 className="text-2xl font-bold">Create a new board</h1>
-         </Modal>
+         <NewBoard isOpen={showNewBoard} onClose={handleCloseNewBoard} />
       </div>
    );
 };

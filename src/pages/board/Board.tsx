@@ -4,7 +4,7 @@ import AddNewColumn from '../../components/add-new-column/AddNewColumn';
 import Column from '../../components/column/Column';
 import { useEffect, useState } from 'react';
 import { getDB } from '../../plugins/firebase';
-import { Status } from '../../types/types';
+import { Status } from '../../types';
 
 const Board = () => {
    const { id } = useParams<{ id: string }>();

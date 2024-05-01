@@ -1,6 +1,7 @@
+import { User } from 'firebase/auth';
 import { DataSnapshot, Unsubscribe } from 'firebase/database';
 
-export type SetDB = <T>(path: string, data: T) => void;
+export type SetDB = <T>(path: string, data: T) => Promise<boolean>;
 
 export type GetDB = (
    path: string,
@@ -26,3 +27,16 @@ export type Task = {
    title: string;
    description: string;
 };
+
+export enum ButtonColor {
+   PRIMARY = 'primary',
+   SECONDARY = 'secondary',
+   NEGATIVE = 'negative',
+   WARNING = 'warning',
+   INFO = 'info'
+}
+
+export enum ButtonVariant {
+   SOLID = 'solid',
+   OUTLINE = 'outline'
+}
