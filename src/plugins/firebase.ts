@@ -20,7 +20,7 @@ import {
    VITE_FB_PROJECT_ID,
    VITE_FB_STORAGE_BUCKET
 } from '../consts/env';
-import { type AuthStateChanged, type GetDB, type SetDB } from 'src/types/types';
+import { type AuthStateChanged, type GetDB, type SetDB } from '../types/types';
 //#endregion
 
 const firebaseConfig = {
