@@ -1,5 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { CircleXIcon } from '../icons/Icons';
+import Button from '../button/Button';
+import { ButtonColor, ButtonVariant } from '../../types';
 
 interface ModalProps {
    children: React.ReactNode;
@@ -12,6 +14,7 @@ interface ModalProps {
    buttonCancelClassName?: string;
    onButtonSuccess?: () => void;
    onButtonCancel?: () => void;
+   hideActions?: boolean;
 }
 
 const Modal: FC<ModalProps> = ({
@@ -24,7 +27,8 @@ const Modal: FC<ModalProps> = ({
    buttonSuccessText,
    onButtonCancel,
    onButtonSuccess,
-   onClose
+   onClose,
+   hideActions
 }) => {
    const [showModal, setShowModal] = useState(isOpen);
 
@@ -66,21 +70,27 @@ const Modal: FC<ModalProps> = ({
 
                      <main className="p-6 text-left">{children}</main>
 
-                     <footer className="flex justify-end p-4 gap-2 border border-t-gray-300">
-                        <button
-                           onClick={handleCancel}
-                           className={`p-2 rounded-md px-10 shadow-sm shadow-red-500 outline outline-1 outline-red-500 text-red-500 active:animate-jump animate-once transition-all hover:bg-red-500 hover:text-white animate-duration-1000 animate-ease-in-out animate-normal animate-fill-both ${buttonCancelClassName}`}
-                        >
-                           {buttonCancelText || 'Cancel'}
-                        </button>
+                     {!hideActions && (
+                        <footer className="flex justify-end p-4 gap-2 border border-t-gray-300">
+                           <Button
+                              onClick={handleCancel}
+                              variant={ButtonVariant.OUTLINE}
+                              color={ButtonColor.NEGATIVE}
+                              className={`${buttonCancelClassName}`}
+                           >
+                              {buttonCancelText || 'Cancel'}
+                           </Button>
 
-                        <button
-                           onClick={handleSuccess}
-                           className={`p-2 rounded-md px-10 shadow-sm shadow-gray-700 bg-gray-700 text-white active:animate-jump animate-once animate-duration-1000 animate-ease-in-out animate-normal animate-fill-both ${buttonSuccessClassName}`}
-                        >
-                           {buttonSuccessText || 'Save'}
-                        </button>
-                     </footer>
+                           <Button
+                              onClick={handleSuccess}
+                              variant={ButtonVariant.SOLID}
+                              color={ButtonColor.PRIMARY}
+                              className={`${buttonSuccessClassName}`}
+                           >
+                              {buttonSuccessText || 'Save'}
+                           </Button>
+                        </footer>
+                     )}
                   </div>
                </div>
             </div>
