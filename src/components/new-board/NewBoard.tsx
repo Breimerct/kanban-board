@@ -15,21 +15,13 @@ const NewBoard: FC<NewBoardProps> = ({ isOpen, onClose }) => {
       if (onClose) onClose();
    };
 
-   const handleSubmit = () => {
-      handleClose();
-   };
-
-   const handleCancel = () => {
-      handleClose();
-   };
-
    useEffect(() => {
       setShowModal(isOpen);
    }, [isOpen]);
 
    return (
       <Modal hideActions title="New Board" onClose={handleClose} isOpen={showModal}>
-         <NewBoardForm onSave={handleSubmit} onReset={handleCancel} />
+         <NewBoardForm onSave={handleClose} onReset={handleClose} />
       </Modal>
    );
 };
