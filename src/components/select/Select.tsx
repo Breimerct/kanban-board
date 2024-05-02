@@ -54,7 +54,7 @@ const Select: FC<SelectProps> = forwardRef<HTMLSelectElement, SelectProps>(
                className={`p-3 w-full shadow-md  font-semibold border rounded-md transition-all capitalize appearance-none ${className} ${errorClasses}`}
             >
                {defaultOption && (
-                  <option disabled value={defaultOption}>
+                  <option disabled selected value="">
                      {defaultOption}
                   </option>
                )}
