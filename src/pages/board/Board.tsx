@@ -1,42 +1,50 @@
-import { useParams } from 'react-router-dom';
-
-import AddNewColumn from '../../components/add-new-column/AddNewColumn';
-import Column from '../../components/column/Column';
+// imports
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { getDB } from '../../plugins/firebase';
-import { Status } from '../../types';
+import { ThemeColor, ButtonVariant, Status } from '../../types';
+
+//#region imports components
+import AddNewColumn from '../../components/add-new-column/AddNewColumn';
+import { PlusIcon } from '../../components/icons/Icons';
+import Column from '../../components/column/Column';
+import Button from '../../components/button/Button';
 
 const Board = () => {
-   const { id } = useParams<{ id: string }>();
-   const [statusData, setStatusData] = useState<[string, Status][]>([]);
+   const { id: boardId } = useParams<{ id: string }>();
+   const [statuses, setStatuses] = useState<[string, Status][]>([]);
 
    useEffect(() => {
       getDB(
-         `statuses/${id}`,
+         `statuses/${boardId}`,
          (snapshot) => {
             const statusData = snapshot.val() as Record<string, Status>;
 
             const statusDataArray = Object.entries(statusData || {});
-
-            setStatusData(statusDataArray);
+            setStatuses(statusDataArray);
          },
          (error) => {
             console.log(error);
          }
       );
-   }, [id]);
+   }, [boardId]);
 
    return (
       <div className="h-full flex flex-col">
          <header className="p-4 pb-5 flex justify-end items-center">
-            <button className="px-4 py-2 text-white bg-blue-500 rounded-md">Add Task</button>
+            <Button variant={ButtonVariant.SOLID} color={ThemeColor.PRIMARY} icon={<PlusIcon size={20} />}>
+               Add New Task
+            </Button>
          </header>
 
          <div className="w-full h-full relative overflow-x-auto overflow-y-hidden scroll-smooth pb-4 mb-4">
-            <ol className="h-full p-4 flex flex-row gap-10 overflow-x-auto overflow-y-hidden absolute top-0 left-0">
-               {!!id &&
-                  !!statusData?.length &&
-                  statusData.map(([statusId, statusItem]) => <Column key={statusId} column={statusItem} />)}
+            <ol
+               data-board-id={boardId}
+               className="h-full p-4 flex flex-row gap-10 overflow-x-auto overflow-y-hidden absolute top-0 left-0"
+            >
+               {statuses.map(([statusId, statusItem]) => (
+                  <Column key={statusId} data-status-id={statusId} column={statusItem} />
+               ))}
 
                <AddNewColumn />
             </ol>
