@@ -1,6 +1,6 @@
 //#region Imports
 import './MainLayout.scss';
-import { Board } from '../../types';
+import { Board, ThemeColor, ButtonVariant } from '../../types';
 import { FC, useEffect, useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { getDB, signInWithGitHub, logout } from '../../plugins/firebase';
@@ -10,6 +10,7 @@ import KanbanBoardDark from '/kanban-dark-mode.svg';
 import SideBar from '../../components/sidebar/SideBar';
 import useCurrentUser from '../../hooks/useCurrentUser';
 import NewBoard from '../../components/new-board/NewBoard';
+import Button from '../../components/button/Button';
 //#endregion
 
 const MainLayout: FC = () => {
@@ -28,7 +29,7 @@ const MainLayout: FC = () => {
    };
 
    const handleCloseNewBoard = () => {
-      navigate('/');
+      navigate({ hash: '' });
    };
 
    useEffect(() => {
@@ -37,15 +38,20 @@ const MainLayout: FC = () => {
    }, [routeHash]);
 
    useEffect(() => {
-      if (currentUser) {
-         getDB(`boards/${currentUser.uid}`, (snapshot) => {
-            const boardsData = snapshot.val() as Record<string, Board>;
-            const boardsDataArray = Object.entries(boardsData || {});
+      if (!currentUser) {
+         setBoards([]);
+         navigate('/');
 
-            setBoards(boardsDataArray);
-         });
+         return;
       }
-   }, [currentUser]);
+
+      getDB(`boards/${currentUser.uid}`, (snapshot) => {
+         const boardsData = snapshot.val() as Record<string, Board>;
+         const boardsDataArray = Object.entries(boardsData || {});
+
+         setBoards(boardsDataArray);
+      });
+   }, [currentUser, navigate]);
 
    return (
       <div className="flex flex-col h-screen overflow-hidden">
@@ -60,9 +66,9 @@ const MainLayout: FC = () => {
             <div>
                {currentUser ? (
                   <div className="flex gap-10">
-                     <button className="ml-auto p-2 rounded-md bg-gray-100 dark:bg-gray-700" onClick={handleLogout}>
-                        <span className="material-icons">logout</span>
-                     </button>
+                     <Button variant={ButtonVariant.SOLID} color={ThemeColor.SECONDARY} onClick={handleLogout}>
+                        logout
+                     </Button>
 
                      <picture className="flex items-center gap-2">
                         <source srcSet={currentUser.photoURL || ''} />
@@ -75,9 +81,9 @@ const MainLayout: FC = () => {
                      </picture>
                   </div>
                ) : (
-                  <button className="ml-4 p-2 rounded-md bg-gray-100 dark:bg-gray-700" onClick={handleLogin}>
-                     <span className="material-icons">login</span>
-                  </button>
+                  <Button variant={ButtonVariant.SOLID} color={ThemeColor.SECONDARY} onClick={handleLogin}>
+                     login
+                  </Button>
                )}
             </div>
          </header>
