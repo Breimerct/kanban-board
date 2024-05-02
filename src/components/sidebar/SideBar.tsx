@@ -1,6 +1,11 @@
-import { Board } from '../../types';
+//#region imports
 import { FC } from 'react';
+import { Board } from '../../types';
+
+//#region Imports Components
 import RouteItem from '../route-item/RouteItem';
+import { HomeIcon, PlusIcon } from '../icons/Icons';
+//#endregion
 
 interface SideBarProps {
    boards: [string, Board][];
@@ -14,11 +19,17 @@ const SideBar: FC<SideBarProps> = ({ boards, className }) => {
          aria-label="Sidebar"
       >
          <div className="h-full w-[inherit] overflow-y-auto bg-gray-50 dark:bg-gray-800">
-            <ul className="px-3 py-4 font-medium">
+            <ul className="px-3 py-4 font-medium flex flex-col gap-2">
+               <RouteItem to="/" icon={<HomeIcon size={30} />} title="Home" />
                {boards.map(([boardId, board]) => (
-                  <RouteItem key={boardId} boardId={boardId} title={board.title} />
+                  <RouteItem key={boardId} boardId={boardId} to={`/board/${boardId}`} title={board.title} />
                ))}
-               <RouteItem boardId="" title="add new board" />
+               <RouteItem
+                  to="#new-board"
+                  title="New board"
+                  icon={<PlusIcon size={30} />}
+                  className="bg-gray-800 text-white hover:bg-gray-700 dark:hover:bg-gray-700 dark:bg-gray-900"
+               />
             </ul>
          </div>
       </aside>
