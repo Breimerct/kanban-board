@@ -28,7 +28,7 @@ export type Task = {
    description: string;
 };
 
-export enum ButtonColor {
+export enum ThemeColor {
    PRIMARY = 'primary',
    SECONDARY = 'secondary',
    NEGATIVE = 'negative',
