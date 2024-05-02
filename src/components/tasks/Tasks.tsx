@@ -26,12 +26,16 @@ const Tasks: FC<TaskProps> = ({ statusId }) => {
       );
    }, [statusId]);
 
-   const [taskList, tasks] = useDragAndDrop<HTMLOListElement, [string, Task]>(tasksData, {
+   const [taskList, tasks, setValues] = useDragAndDrop<HTMLOListElement, [string, Task]>(tasksData, {
       group: 'tasks',
       plugins: [animations()],
       dropZoneClass: 'border-dashed border-slate-500 border-2 opacity-50',
       draggingClass: 'border-slate-900 cursor-grabbing shadow-lg opacity-100 z-50'
    });
+
+   useEffect(() => {
+      setValues(tasksData);
+   }, [tasksData, setValues]);
 
    return (
       <div className="flex-1 overflow-y-auto scroll-smooth pr-2">

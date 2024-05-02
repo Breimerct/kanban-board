@@ -1,6 +1,6 @@
 // imports
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getDB } from '../../plugins/firebase';
 import { ThemeColor, ButtonVariant, Status } from '../../types';
 
@@ -13,7 +13,10 @@ import NewTask from '../../components/new-task/Newtask';
 
 const Board = () => {
    const { id: boardId } = useParams<{ id: string }>();
+   const navigate = useNavigate();
+   const { hash: routeHash } = useLocation();
    const [statuses, setStatuses] = useState<[string, Status][]>([]);
+   const [showNewTask, setShowNewTask] = useState(false);
 
    useEffect(() => {
       getDB(
@@ -30,10 +33,28 @@ const Board = () => {
       );
    }, [boardId]);
 
+   useEffect(() => {
+      const isNewTask = routeHash === '#new-task';
+      setShowNewTask(isNewTask);
+   }, [routeHash]);
+
+   const handleClickShowNewTask = () => {
+      navigate({ hash: '#new-task' });
+   };
+
+   const handleClosedNewTask = () => {
+      navigate({ hash: '' });
+   };
+
    return (
       <div className="h-full flex flex-col">
          <header className="p-4 pb-5 flex justify-end items-center">
-            <Button variant={ButtonVariant.SOLID} color={ThemeColor.PRIMARY} icon={<PlusIcon size={20} />}>
+            <Button
+               variant={ButtonVariant.SOLID}
+               color={ThemeColor.PRIMARY}
+               icon={<PlusIcon size={20} />}
+               onClick={handleClickShowNewTask}
+            >
                Add New Task
             </Button>
          </header>
@@ -48,7 +69,7 @@ const Board = () => {
                ))}
 
                <AddNewColumn />
-               <NewTask isOpen={true} />
+               <NewTask isOpen={showNewTask} onClose={handleClosedNewTask} />
             </ol>
          </div>
       </div>
