@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
-import { animations } from '@formkit/drag-and-drop';
 import { useDragAndDrop } from '@formkit/drag-and-drop/react';
+import { animations } from '@formkit/drag-and-drop';
 import { getDB } from '../../plugins/firebase';
 import { Task } from '../../types';
 
