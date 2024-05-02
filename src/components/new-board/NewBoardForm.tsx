@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { ThemeColor, ButtonVariant } from '../../types';
 
 import Button from '../button/Button';
-import Input from '../../assets/input/Input';
+import Input from '../input/Input';
 import { setDB } from '../../plugins/firebase';
 import useCurrentUser from '../../hooks/useCurrentUser';
 

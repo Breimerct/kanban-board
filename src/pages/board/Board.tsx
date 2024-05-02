@@ -9,6 +9,7 @@ import AddNewColumn from '../../components/add-new-column/AddNewColumn';
 import { PlusIcon } from '../../components/icons/Icons';
 import Column from '../../components/column/Column';
 import Button from '../../components/button/Button';
+import NewTask from '../../components/new-task/Newtask';
 
 const Board = () => {
    const { id: boardId } = useParams<{ id: string }>();
@@ -47,6 +48,7 @@ const Board = () => {
                ))}
 
                <AddNewColumn />
+               <NewTask isOpen={true} />
             </ol>
          </div>
       </div>

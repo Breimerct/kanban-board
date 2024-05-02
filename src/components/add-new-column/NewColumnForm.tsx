@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
-import Input from '../../assets/input/Input';
+import Input from '../input/Input';
 import Button from '../button/Button';
 import { setDB } from '../../plugins/firebase';
 
