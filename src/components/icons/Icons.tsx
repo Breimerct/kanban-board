@@ -7,9 +7,10 @@ interface IconProps {
 
 export const BoardIcon: FC<IconProps> = ({ className, size }) => (
    <svg
-      width={size || 24}
-      height={size || 24}
+      width={size}
+      height={size}
       className={className}
+      viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       strokeWidth="1.5"
@@ -23,9 +24,10 @@ export const BoardIcon: FC<IconProps> = ({ className, size }) => (
 
 export const CircleXIcon: FC<IconProps> = ({ className, size }) => (
    <svg
-      width={size || 24}
-      height={size || 24}
+      width={size}
+      height={size}
       className={className}
+      viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
@@ -35,5 +37,42 @@ export const CircleXIcon: FC<IconProps> = ({ className, size }) => (
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
       <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
       <path d="M10 10l4 4m0 -4l-4 4" />
+   </svg>
+);
+
+export const PlusIcon: FC<IconProps> = ({ className, size }) => (
+   <svg
+      className={className}
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+   >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 5l0 14" />
+      <path d="M5 12l14 0" />
+   </svg>
+);
+
+export const HomeIcon: FC<IconProps> = ({ className, size }) => (
+   <svg
+      className={className}
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+   >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+      <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+      <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
    </svg>
 );
