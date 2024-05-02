@@ -3,7 +3,7 @@ import './MainLayout.scss';
 import { Board, ThemeColor, ButtonVariant } from '../../types';
 import { FC, useEffect, useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { getDB, signInWithGitHub, logout } from '../../plugins/firebase';
+import { signInWithGitHub, logout } from '../../plugins/firebase';
 
 import KanbanBoard from '/kanban.svg';
 import KanbanBoardDark from '/kanban-dark-mode.svg';
@@ -11,13 +11,17 @@ import SideBar from '../../components/sidebar/SideBar';
 import useCurrentUser from '../../hooks/useCurrentUser';
 import NewBoard from '../../components/new-board/NewBoard';
 import Button from '../../components/button/Button';
+import useGetCollection from '../../hooks/useGetCollection';
 //#endregion
+
+type Boards = [string, Board];
 
 const MainLayout: FC = () => {
    const { currentUser } = useCurrentUser();
    const { hash: routeHash } = useLocation();
    const navigate = useNavigate();
-   const [boards, setBoards] = useState<[string, Board][]>([]);
+   const boardsCollection = useGetCollection({ path: `boards/${currentUser?.uid}` });
+   const [boards, setBoards] = useState<Boards[]>(boardsCollection as Boards[]);
    const [showNewBoard, setShowNewBoard] = useState(false);
 
    const handleLogin = async () => {
@@ -26,6 +30,7 @@ const MainLayout: FC = () => {
 
    const handleLogout = () => {
       logout();
+      navigate('/');
    };
 
    const handleCloseNewBoard = () => {
@@ -38,20 +43,8 @@ const MainLayout: FC = () => {
    }, [routeHash]);
 
    useEffect(() => {
-      if (!currentUser) {
-         setBoards([]);
-         navigate('/');
-
-         return;
-      }
-
-      getDB(`boards/${currentUser.uid}`, (snapshot) => {
-         const boardsData = snapshot.val() as Record<string, Board>;
-         const boardsDataArray = Object.entries(boardsData || {});
-
-         setBoards(boardsDataArray);
-      });
-   }, [currentUser, navigate]);
+      setBoards(boardsCollection as Boards[]);
+   }, [boardsCollection]);
 
    return (
       <div className="flex flex-col h-screen overflow-hidden">

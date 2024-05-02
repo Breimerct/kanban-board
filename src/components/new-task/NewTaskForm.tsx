@@ -81,6 +81,7 @@ const NewTaskForm: FC<NewTaskFormProps> = ({ onReset, onSaved, optionsSelectStat
                label="Title"
                isError={!!errors.title?.message}
                errorMessage={errors.title?.message}
+               placeholder="e.g. 'Task 1"
                type="text"
                id="taskName"
             />
@@ -92,6 +93,7 @@ const NewTaskForm: FC<NewTaskFormProps> = ({ onReset, onSaved, optionsSelectStat
                label="Task Description"
                isError={!!errors.description?.message}
                errorMessage={errors.description?.message}
+               placeholder='e.g "This task is about..."'
                id="taskDescription"
                rows={3}
             ></Textarea>
@@ -104,6 +106,7 @@ const NewTaskForm: FC<NewTaskFormProps> = ({ onReset, onSaved, optionsSelectStat
                isError={!!errors.status?.message}
                errorMessage={errors.status?.message}
                options={statuses}
+               defaultOption="Select a status"
                displayValue="title"
                returnValueKey="id"
                id="status"

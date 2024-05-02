@@ -1,32 +1,17 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { useDragAndDrop } from '@formkit/drag-and-drop/react';
 import { animations } from '@formkit/drag-and-drop';
-import { getDB } from '../../plugins/firebase';
 import { Task } from '../../types';
+import useGetCollection from '../../hooks/useGetCollection';
 
 interface TaskProps {
    statusId: string;
 }
 
 const Tasks: FC<TaskProps> = ({ statusId }) => {
-   const [tasksData, setTasksData] = useState<[string, Task][]>([]);
+   const tasksCollection = useGetCollection({ path: `tasks/${statusId}` }) as [string, Task][];
 
-   useEffect(() => {
-      getDB(
-         `tasks/${statusId}`,
-         (snapshot) => {
-            const _tasksData = snapshot.val() as Record<string, Task>;
-            const tasksDataArray = Object.entries(_tasksData || {});
-
-            setTasksData(tasksDataArray);
-         },
-         (error) => {
-            console.log(error);
-         }
-      );
-   }, [statusId]);
-
-   const [taskList, tasks, setValues] = useDragAndDrop<HTMLOListElement, [string, Task]>(tasksData, {
+   const [taskList, tasks, setValues] = useDragAndDrop<HTMLOListElement, [string, Task]>(tasksCollection, {
       group: 'tasks',
       plugins: [animations()],
       dropZoneClass: 'border-dashed border-slate-500 border-2 opacity-50',
@@ -34,8 +19,8 @@ const Tasks: FC<TaskProps> = ({ statusId }) => {
    });
 
    useEffect(() => {
-      setValues(tasksData);
-   }, [tasksData, setValues]);
+      setValues(tasksCollection);
+   }, [tasksCollection, setValues]);
 
    return (
       <div className="flex-1 overflow-y-auto scroll-smooth pr-2">
@@ -48,11 +33,11 @@ const Tasks: FC<TaskProps> = ({ statusId }) => {
                      key={taskId}
                      className="p-4 bg-gray-400 shadow-md rounded-md active:cursor-grabbing cursor-grab transition-all ease-in-out"
                   >
-                     <div role="task-item" className="min-w-full pointer-events-none">
+                     <div role="task-item" className="min-w-full pointer-events-none overflow-hidden">
                         <header className="flex items-center justify-between">
                            <h3 className="font-bold text-slate-700 text-lg">{task.title}</h3>
                         </header>
-                        <p className="text-sm text-slate-600">{task.description}</p>
+                        <p className="text-sm text-slate-600 truncate">{task.description}</p>
                      </div>
                   </li>
                ))}

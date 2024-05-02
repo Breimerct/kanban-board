@@ -1,7 +1,6 @@
 // imports
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { getDB } from '../../plugins/firebase';
 import { ThemeColor, ButtonVariant, Status } from '../../types';
 
 //#region imports components
@@ -10,28 +9,16 @@ import { PlusIcon } from '../../components/icons/Icons';
 import Column from '../../components/column/Column';
 import Button from '../../components/button/Button';
 import NewTask from '../../components/new-task/Newtask';
+import useGetCollection from '../../hooks/useGetCollection';
+
+type Statuses = [string, Status];
 
 const Board = () => {
    const { id: boardId } = useParams<{ id: string }>();
    const navigate = useNavigate();
    const { hash: routeHash } = useLocation();
-   const [statuses, setStatuses] = useState<[string, Status][]>([]);
+   const statuses = useGetCollection({ path: `statuses/${boardId}` }) as Statuses[];
    const [showNewTask, setShowNewTask] = useState(false);
-
-   useEffect(() => {
-      getDB(
-         `statuses/${boardId}`,
-         (snapshot) => {
-            const statusData = snapshot.val() as Record<string, Status>;
-
-            const statusDataArray = Object.entries(statusData || {});
-            setStatuses(statusDataArray);
-         },
-         (error) => {
-            console.log(error);
-         }
-      );
-   }, [boardId]);
 
    useEffect(() => {
       const isNewTask = routeHash === '#new-task';
@@ -49,14 +36,16 @@ const Board = () => {
    return (
       <div className="h-full flex flex-col">
          <header className="p-4 pb-5 flex justify-end items-center">
-            <Button
-               variant={ButtonVariant.SOLID}
-               color={ThemeColor.PRIMARY}
-               icon={<PlusIcon size={20} />}
-               onClick={handleClickShowNewTask}
-            >
-               Add New Task
-            </Button>
+            {statuses.length > 0 && (
+               <Button
+                  variant={ButtonVariant.SOLID}
+                  color={ThemeColor.PRIMARY}
+                  icon={<PlusIcon size={20} />}
+                  onClick={handleClickShowNewTask}
+               >
+                  Add New Task
+               </Button>
+            )}
          </header>
 
          <div className="w-full h-full relative overflow-x-auto overflow-y-hidden scroll-smooth pb-4 mb-4">
