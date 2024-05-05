@@ -25,9 +25,7 @@ const TaskItem: FC<TaskItemProps> = ({ task, className, ...props }) => {
                <h3 className="font-bold text-slate-700 text-lg break-all">{task.title}</h3>
             </header>
             {subtasksTotal <= 0 ? (
-               <p className="text-sm text-gray-700 truncate flex flex-nowrap gap-1">
-                  {task.description || 'No description'}
-               </p>
+               <p className="text-sm text-gray-700 truncate">{task.description || 'No description'}</p>
             ) : (
                <p className="text-sm text-gray-600 flex flex-nowrap gap-1">
                   <span>
