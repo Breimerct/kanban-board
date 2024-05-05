@@ -1,9 +1,9 @@
-// imports
+//#region imports
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { ThemeColor, ButtonVariant, type Status } from '../../types';
 
-//#region imports components
+// imports components
 import { PlusIcon } from '../../components/icons/Icons';
 import Button from '../../components/button/Button';
 import NewTask from '../../components/new-task/Newtask';
@@ -48,6 +48,7 @@ const Board = () => {
          <div className="w-full h-full relative overflow-x-auto overflow-y-hidden scroll-smooth pb-4 mb-4">
             <StatusList statuses={statuses} boardId={boardId} />
          </div>
+
          <NewTask isOpen={showNewTask} onClose={handleClosedNewTask} />
       </div>
    );

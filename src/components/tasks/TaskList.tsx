@@ -1,29 +1,22 @@
-import { DragEvent, FC, useEffect } from 'react';
-import { useDragAndDrop } from '@formkit/drag-and-drop/react';
-import { animations } from '@formkit/drag-and-drop';
 import { Task } from '../../types';
-import useGetCollection from '../../hooks/useGetCollection';
+import { DragEvent, FC } from 'react';
 import { updateData } from '../../plugins/firebase';
+import { animations } from '@formkit/drag-and-drop';
+import { useDragAndDrop } from '@formkit/drag-and-drop/react';
+
 import TaskItem from './taskItem';
 
-interface TaskProps {
+interface TaskListProps {
+   tasksData: Task[];
    statusId: string;
 }
 
-const Tasks: FC<TaskProps> = ({ statusId }) => {
-   const tasksCollection = useGetCollection({
-      path: `tasks/${statusId}`
-   }) as Task[];
-
-   const [taskList, tasks, setValues] = useDragAndDrop<HTMLUListElement, Task>([], {
+const TasksList: FC<TaskListProps> = ({ tasksData, statusId }) => {
+   const [taskList, tasks] = useDragAndDrop<HTMLUListElement, Task>(tasksData, {
       group: 'tasks',
       dropZoneClass: 'border-dashed border-2 border-gray-300 opacity-50',
-      plugins: [animations()]
+      plugins: [animations({ duration: 250 })]
    });
-
-   useEffect(() => {
-      setValues(tasksCollection);
-   }, [tasksCollection, setValues]);
 
    const handleDrop = () => async (event: DragEvent<HTMLUListElement>) => {
       const $liElement = event.target as HTMLLIElement;
@@ -57,20 +50,18 @@ const Tasks: FC<TaskProps> = ({ statusId }) => {
    };
 
    return (
-      <div className="flex-1 overflow-y-auto scroll-smooth pr-2">
-         <ul
-            className="flex flex-col gap-4 h-full transition-all ease-in-out"
-            data-parent-status-id={statusId}
-            onDrop={handleDrop()}
-            ref={taskList}
-            role="card"
-         >
-            {tasks.map((task) => (
-               <TaskItem key={task.id} task={task} />
-            ))}
-         </ul>
-      </div>
+      <ul
+         className="flex flex-col gap-4 h-full transition-all ease-in-out"
+         data-parent-status-id={statusId}
+         onDrop={handleDrop()}
+         ref={taskList}
+         role="card"
+      >
+         {tasks.map((task) => (
+            <TaskItem key={task.id} task={task} />
+         ))}
+      </ul>
    );
 };
 
-export default Tasks;
+export default TasksList;

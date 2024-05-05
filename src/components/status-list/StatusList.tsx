@@ -14,11 +14,7 @@ interface StatusListProps {
 const StatusList: FC<StatusListProps> = ({ statuses, boardId }) => {
    const [statusList, statusData, setValues] = useDragAndDrop<HTMLUListElement, Status>(statuses, {
       dropZoneClass: 'boarder-dashed border-2 border-gray-300 rounded-md opacity-50',
-      plugins: [
-         animations({
-            duration: 250
-         })
-      ],
+      plugins: [animations({ duration: 250 })],
       draggable: (el) => {
          return !el.classList.contains('no-drag');
       }
