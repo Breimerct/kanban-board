@@ -16,7 +16,7 @@ const Column: FC<ColumnProps> = ({ column, ...props }) => {
                <span className={`w-4 h-4 rounded-full`} style={{ backgroundColor: column.color }}></span>
             </header>
 
-            <Tasks statusId={column.id} boardId={column.boardId} />
+            <Tasks statusId={column.id} />
          </div>
       </li>
    );

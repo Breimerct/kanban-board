@@ -20,7 +20,7 @@ const StatusList: FC<StatusListProps> = ({ statuses, boardId }) => {
          })
       ],
       draggable: (el) => {
-         return el.id !== 'no-drag';
+         return !el.classList.contains('no-drag');
       }
    });
 
@@ -44,7 +44,7 @@ const StatusList: FC<StatusListProps> = ({ statuses, boardId }) => {
             <Column key={statusItem.id} column={statusItem} />
          ))}
 
-         <AddNewColumn id="no-drag" />
+         <AddNewColumn className="no-drag" />
       </ul>
    );
 };
