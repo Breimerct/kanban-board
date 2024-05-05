@@ -16,28 +16,23 @@ interface NewTaskProps {
 
 const NewTask: FC<NewTaskProps> = ({ isOpen, onClose }) => {
    const [showNewTask, setShowNewTask] = useState(isOpen);
-   const [statuses, setStatuses] = useState<Status[]>([]);
    const { id: boardId } = useParams<{ id: string }>();
-   const statusData = useGetCollection({ path: `statuses/${boardId}` }) as [string, Status][];
+   const statuses = useGetCollection({ path: `boards/${boardId}/statuses` }) as Status[];
 
    useEffect(() => {
       setShowNewTask(isOpen);
    }, [isOpen]);
 
-   useEffect(() => {
-      setStatuses(statusData.map(([id, status]) => ({ ...status, id })));
-   }, [statusData]);
-
    const onSubmit = (data: FormDataTask) => {
       const id = crypto.randomUUID();
       const newTask = {
          id,
+         statusId: data.status,
          title: data.title,
-         description: data.description,
-         status: data.status
+         description: data.description
       };
 
-      setDB(`tasks/${data.status}/${id}`, newTask);
+      setDB(`boards/${boardId}/statuses/${data.status}/tasks/${id}`, newTask);
       handleReset();
    };
 

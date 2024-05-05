@@ -3,7 +3,8 @@ import './MainLayout.scss';
 import { Board, ThemeColor, ButtonVariant } from '../../types';
 import { FC, useEffect, useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { signInWithGitHub, logout } from '../../plugins/firebase';
+import { signInWithGitHub, logout, signInWithGoogle } from '../../plugins/firebase';
+import useGetCollection from '../../hooks/useGetCollection';
 
 import KanbanBoard from '/kanban.svg';
 import KanbanBoardDark from '/kanban-dark-mode.svg';
@@ -11,25 +12,26 @@ import SideBar from '../../components/sidebar/SideBar';
 import useCurrentUser from '../../hooks/useCurrentUser';
 import NewBoard from '../../components/new-board/NewBoard';
 import Button from '../../components/button/Button';
-import useGetCollection from '../../hooks/useGetCollection';
 //#endregion
-
-type Boards = [string, Board];
 
 const MainLayout: FC = () => {
    const { currentUser } = useCurrentUser();
    const { hash: routeHash } = useLocation();
    const navigate = useNavigate();
-   const boardsCollection = useGetCollection({ path: `boards/${currentUser?.uid}` });
-   const [boards, setBoards] = useState<Boards[]>(boardsCollection as Boards[]);
+   const boards = useGetCollection({ path: `boards` }) as Board[];
    const [showNewBoard, setShowNewBoard] = useState(false);
 
-   const handleLogin = async () => {
+   const handleLoginGithub = async () => {
       await signInWithGitHub();
+   };
+
+   const handleLoginGoogle = async () => {
+      await signInWithGoogle();
    };
 
    const handleLogout = () => {
       logout();
+      sessionStorage.removeItem('user');
       navigate('/');
    };
 
@@ -41,10 +43,6 @@ const MainLayout: FC = () => {
       const isNewBoard = routeHash === '#new-board';
       setShowNewBoard(isNewBoard);
    }, [routeHash]);
-
-   useEffect(() => {
-      setBoards(boardsCollection as Boards[]);
-   }, [boardsCollection]);
 
    return (
       <div className="flex flex-col h-screen overflow-hidden">
@@ -64,7 +62,6 @@ const MainLayout: FC = () => {
                      </Button>
 
                      <picture className="flex items-center gap-2">
-                        <source srcSet={currentUser.photoURL || ''} />
                         <span className="ms-2">{currentUser.displayName}</span>
                         <img
                            src={currentUser.photoURL || ''}
@@ -74,9 +71,14 @@ const MainLayout: FC = () => {
                      </picture>
                   </div>
                ) : (
-                  <Button variant={ButtonVariant.SOLID} color={ThemeColor.SECONDARY} onClick={handleLogin}>
-                     login
-                  </Button>
+                  <div className="flex gap-4">
+                     <Button variant={ButtonVariant.SOLID} color={ThemeColor.SECONDARY} onClick={handleLoginGithub}>
+                        login github
+                     </Button>
+                     <Button variant={ButtonVariant.SOLID} color={ThemeColor.SECONDARY} onClick={handleLoginGoogle}>
+                        login google
+                     </Button>
+                  </div>
                )}
             </div>
          </header>

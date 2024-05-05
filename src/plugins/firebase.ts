@@ -1,12 +1,12 @@
 //#region Imports
 // Import firebase modules
 import { initializeApp } from 'firebase/app';
-import { getDatabase, onValue, ref, set } from 'firebase/database';
+import { DatabaseReference, getDatabase, onValue, ref, set, update } from 'firebase/database';
 import {
    getAuth,
    getRedirectResult,
    GithubAuthProvider,
-   onAuthStateChanged,
+   GoogleAuthProvider,
    signInWithRedirect,
    signOut
 } from 'firebase/auth';
@@ -20,7 +20,7 @@ import {
    VITE_FB_PROJECT_ID,
    VITE_FB_STORAGE_BUCKET
 } from '../consts/env';
-import { type AuthStateChanged, type GetDB, type SetDB } from '../types';
+import { UpdateData, type GetDB, type SetDB } from '../types';
 //#endregion
 
 const firebaseConfig = {
@@ -32,22 +32,33 @@ const firebaseConfig = {
    appId: VITE_FB_APP_ID
 };
 
-const provider = new GithubAuthProvider();
+const githubProvider = new GithubAuthProvider();
+const googleProvider = new GoogleAuthProvider();
 export const app = initializeApp(firebaseConfig);
-const db = getDatabase();
-const auth = getAuth();
+const db = getDatabase(app);
+const dbRef = ref(db);
+
+export const auth = getAuth(app);
 
 //#region Functions
 export const getProviderResult = getRedirectResult.bind(null, auth);
 
-export const signInWithGitHub = signInWithRedirect.bind(null, auth, provider);
+export const signInWithGitHub = signInWithRedirect.bind(null, auth, githubProvider);
+
+export const signInWithGoogle = signInWithRedirect.bind(null, auth, googleProvider);
 
 export const logout = signOut.bind(null, auth);
+
+export const updateData: UpdateData = (updates) => {
+   console.log(updates);
+   update(dbRef, updates as DatabaseReference);
+};
 
 export const setDB: SetDB = (path, data) => {
    return new Promise((resolve, reject) => {
       try {
-         set(ref(db, path), data);
+         const rootPath = `users/${auth.currentUser?.uid}/${path}`;
+         set(ref(db, rootPath), data);
          resolve(true);
       } catch (error) {
          reject(error);
@@ -56,8 +67,7 @@ export const setDB: SetDB = (path, data) => {
 };
 
 export const getDB: GetDB = (path, snapshot, error) => {
-   const starCountRef = ref(db, path);
+   const rootPath = `users/${auth.currentUser?.uid}/${path}`;
+   const starCountRef = ref(db, rootPath);
    return onValue(starCountRef, snapshot, error);
 };
-
-export const authStateChanged: AuthStateChanged = (callback, error) => onAuthStateChanged(auth, callback, error);

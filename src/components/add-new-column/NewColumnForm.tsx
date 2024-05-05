@@ -49,8 +49,9 @@ const NewColumnForm: FC<NewColumnFormProps> = ({ boardId, onReset, onSave }) => 
    const onSubmit = async ({ title, color }: FormData) => {
       const id = crypto.randomUUID();
       try {
-         setDB(`statuses/${boardId}/${id}`, {
+         setDB(`boards/${boardId}/statuses/${id}`, {
             id,
+            boardId,
             title,
             color
          });

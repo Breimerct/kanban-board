@@ -1,8 +1,21 @@
+// import { FC } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
 import MainLayout from '../layouts/main-layout/MainLayout';
-import Home from '../pages/home/Home';
 import Board from '../pages/board/Board';
+import Home from '../pages/home/Home';
+
+// interface ProtectedRouteProps {
+//    children: React.ReactNode;
+// }
+
+// export const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
+//    if (!sessionStorage?.user) {
+//       return <Navigate to="/" />; // Redirecciona a la ruta de inicio de sesión
+//    }
+
+//    return children; // Renderiza los componentes hijo
+// };
 
 const routes = createBrowserRouter([
    {

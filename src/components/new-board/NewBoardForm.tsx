@@ -3,11 +3,11 @@ import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ThemeColor, ButtonVariant } from '../../types';
+import useCurrentUser from '../../hooks/useCurrentUser';
+import { setDB } from '../../plugins/firebase';
 
 import Button from '../button/Button';
 import Input from '../input/Input';
-import { setDB } from '../../plugins/firebase';
-import useCurrentUser from '../../hooks/useCurrentUser';
 
 interface NewBoardFormProps {
    onReset?: () => void;
@@ -20,6 +20,7 @@ type FormData = {
 
 const NewBoardForm: FC<NewBoardFormProps> = ({ onReset, onSave }) => {
    const { currentUser } = useCurrentUser();
+
    const defaultValues = {
       boardName: ''
    };
@@ -47,10 +48,10 @@ const NewBoardForm: FC<NewBoardFormProps> = ({ onReset, onSave }) => {
    const onSaveNewBoard = async (data: FormData) => {
       try {
          const id = crypto.randomUUID();
-         console.log(id);
 
-         await setDB(`boards/${currentUser?.uid}/${id}`, {
-            title: data.boardName
+         await setDB(`boards/${id}`, {
+            title: data.boardName,
+            userId: currentUser?.uid
          });
          onSave && onSave();
       } catch (error) {

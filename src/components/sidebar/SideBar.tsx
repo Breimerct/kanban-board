@@ -8,7 +8,7 @@ import { HomeIcon, PlusIcon } from '../icons/Icons';
 //#endregion
 
 interface SideBarProps {
-   boards: [string, Board][];
+   boards: Board[];
    className?: string;
 }
 
@@ -21,8 +21,8 @@ const SideBar: FC<SideBarProps> = ({ boards, className }) => {
          <div className="h-full w-[inherit] overflow-y-auto bg-gray-50 dark:bg-gray-800">
             <ul className="px-3 py-4 font-medium flex flex-col gap-2">
                <RouteItem to="/" icon={<HomeIcon size={30} />} title="Home" />
-               {boards.map(([boardId, board]) => (
-                  <RouteItem key={boardId} boardId={boardId} to={`/board/${boardId}`} title={board.title} />
+               {boards.map(({ id, title }) => (
+                  <RouteItem key={id} boardId={id} to={`/board/${id}`} title={title} />
                ))}
                <RouteItem
                   to="#new-board"

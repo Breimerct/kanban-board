@@ -1,12 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import { PlusIcon } from '../icons/Icons';
 import NewColumn from './NewColumn';
+import { FC } from 'react';
 
-const AddNewColumn = () => {
+interface AddNewColumnProps extends React.HtmlHTMLAttributes<HTMLLIElement> {}
+
+const AddNewColumn: FC<AddNewColumnProps> = ({ ...props }) => {
    const navigate = useNavigate();
 
-   const handleClick = () => {
+   const handleClick = (e: React.MouseEvent<HTMLLIElement>) => {
       navigate('#new-column');
+      props.onClick?.(e);
    };
 
    const handleCloseNewColumn = () => {
@@ -19,6 +23,7 @@ const AddNewColumn = () => {
             role="card"
             className="w-80 max-h-[inherit] p-4 bg-gray-200 shadow-md rounded-md grid place-content-center hover:shadow-lg hover:scale-105 cursor-pointer transition-all"
             onClick={handleClick}
+            {...props}
          >
             <figure className="w-80 flex flex-col justify-center items-center">
                <PlusIcon

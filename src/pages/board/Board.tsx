@@ -1,23 +1,20 @@
 // imports
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { ThemeColor, ButtonVariant, Status } from '../../types';
+import { ThemeColor, ButtonVariant, type Status } from '../../types';
 
 //#region imports components
-import AddNewColumn from '../../components/add-new-column/AddNewColumn';
 import { PlusIcon } from '../../components/icons/Icons';
-import Column from '../../components/column/Column';
 import Button from '../../components/button/Button';
 import NewTask from '../../components/new-task/Newtask';
 import useGetCollection from '../../hooks/useGetCollection';
-
-type Statuses = [string, Status];
+import StatusList from '../../components/status-list/StatusList';
 
 const Board = () => {
    const { id: boardId } = useParams<{ id: string }>();
    const navigate = useNavigate();
    const { hash: routeHash } = useLocation();
-   const statuses = useGetCollection({ path: `statuses/${boardId}` }) as Statuses[];
+   const statuses = useGetCollection({ path: `boards/${boardId}/statuses` }) as Status[];
    const [showNewTask, setShowNewTask] = useState(false);
 
    useEffect(() => {
@@ -49,18 +46,9 @@ const Board = () => {
          </header>
 
          <div className="w-full h-full relative overflow-x-auto overflow-y-hidden scroll-smooth pb-4 mb-4">
-            <ol
-               data-board-id={boardId}
-               className="h-full p-4 flex flex-row gap-10 overflow-x-auto overflow-y-hidden absolute top-0 left-0"
-            >
-               {statuses.map(([statusId, statusItem]) => (
-                  <Column key={statusId} data-status-id={statusId} column={statusItem} />
-               ))}
-
-               <AddNewColumn />
-               <NewTask isOpen={showNewTask} onClose={handleClosedNewTask} />
-            </ol>
+            <StatusList statuses={statuses} boardId={boardId} />
          </div>
+         <NewTask isOpen={showNewTask} onClose={handleClosedNewTask} />
       </div>
    );
 };
