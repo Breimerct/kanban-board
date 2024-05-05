@@ -5,12 +5,16 @@ import { Task } from '../../types';
 import useGetCollection from '../../hooks/useGetCollection';
 import { updateData } from '../../plugins/firebase';
 import TaskItem from './taskItem';
+import { useTaskStore } from '../../store/task.store';
+import { useNavigate } from 'react-router-dom';
 
 interface TaskProps {
    statusId: string;
 }
 
 const Tasks: FC<TaskProps> = ({ statusId }) => {
+   const setTask = useTaskStore((state) => state.setTask);
+   const navigate = useNavigate();
    const tasksCollection = useGetCollection({
       path: `tasks/${statusId}`
    }) as Task[];
@@ -56,6 +60,11 @@ const Tasks: FC<TaskProps> = ({ statusId }) => {
       updateData(updated);
    };
 
+   const handleClickedTask = (task: Task) => () => {
+      setTask(task);
+      navigate({ hash: '#task-detail' });
+   };
+
    return (
       <div className="flex-1 overflow-y-auto scroll-smooth pr-2">
          <ul
@@ -66,7 +75,7 @@ const Tasks: FC<TaskProps> = ({ statusId }) => {
             role="card"
          >
             {tasks.map((task) => (
-               <TaskItem key={task.id} task={task} />
+               <TaskItem key={task.id} task={task} onClick={handleClickedTask(task)} />
             ))}
          </ul>
       </div>

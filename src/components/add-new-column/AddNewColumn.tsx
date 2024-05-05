@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import { PlusIcon } from '../icons/Icons';
-import NewColumn from './NewColumn';
 import { FC } from 'react';
 
 interface AddNewColumnProps extends React.HtmlHTMLAttributes<HTMLLIElement> {}
@@ -11,10 +10,6 @@ const AddNewColumn: FC<AddNewColumnProps> = ({ className, ...props }) => {
    const handleClick = (e: React.MouseEvent<HTMLLIElement>) => {
       navigate('#new-column');
       props.onClick?.(e);
-   };
-
-   const handleCloseNewColumn = () => {
-      navigate({ hash: '' });
    };
 
    return (
@@ -33,7 +28,6 @@ const AddNewColumn: FC<AddNewColumnProps> = ({ className, ...props }) => {
                <span className="font-bold text-gray-500 text-center">Add new</span>
             </figure>
          </li>
-         <NewColumn onClose={handleCloseNewColumn} />
       </>
    );
 };

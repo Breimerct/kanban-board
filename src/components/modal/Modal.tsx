@@ -15,6 +15,7 @@ interface ModalProps {
    onButtonSuccess?: () => void;
    onButtonCancel?: () => void;
    hideActions?: boolean;
+   classNameModalContent?: string;
 }
 
 const Modal: FC<ModalProps> = ({
@@ -28,7 +29,8 @@ const Modal: FC<ModalProps> = ({
    onButtonCancel,
    onButtonSuccess,
    onClose,
-   hideActions
+   hideActions,
+   classNameModalContent
 }) => {
    const [showModal, setShowModal] = useState(isOpen);
 
@@ -60,7 +62,9 @@ const Modal: FC<ModalProps> = ({
                <div
                   className={`mx-auto p-4 z-20 w-screen h-screen flex items-center justify-center animate-once animate-ease-in-out ${showModal ? 'animate-jump-in' : 'animate-jump-out'}`}
                >
-                  <div className="w-full max-w-lg h-full sm:h-[initial] flex flex-col relative shadow-lg rounded-lg bg-white overflow-hidden">
+                  <div
+                     className={`w-full max-w-lg h-full sm:h-[initial] flex flex-col relative shadow-lg rounded-lg bg-white overflow-hidden ${classNameModalContent}`}
+                  >
                      <header className="flex justify-between items-center text-gray-800 shadow-md">
                         <h2 className="text-2xl font-bold p-4">{title}</h2>
                         <button onClick={handleClose} className="p-2 hover:text-opacity-75 focus:outline-none">

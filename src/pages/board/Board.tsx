@@ -9,6 +9,8 @@ import Button from '../../components/button/Button';
 import NewTask from '../../components/new-task/Newtask';
 import useGetCollection from '../../hooks/useGetCollection';
 import StatusList from '../../components/status-list/StatusList';
+import NewColumn from '../../components/add-new-column/NewColumn';
+import TaskDetail from '../../components/task-detail/TaskDetail';
 
 const Board = () => {
    const { id: boardId } = useParams<{ id: string }>();
@@ -26,7 +28,7 @@ const Board = () => {
       navigate({ hash: '#new-task' });
    };
 
-   const handleClosedNewTask = () => {
+   const handleCloseModal = () => {
       navigate({ hash: '' });
    };
 
@@ -49,7 +51,9 @@ const Board = () => {
             <StatusList statuses={statuses} boardId={boardId} />
          </div>
 
-         <NewTask isOpen={showNewTask} onClose={handleClosedNewTask} />
+         <NewTask isOpen={showNewTask} onClose={handleCloseModal} />
+         <NewColumn onClose={handleCloseModal} />
+         <TaskDetail />
       </div>
    );
 };
