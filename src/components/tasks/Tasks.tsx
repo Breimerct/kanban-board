@@ -75,7 +75,9 @@ const Tasks: FC<TaskProps> = ({ statusId }) => {
                >
                   <div role="task-item" className="min-w-full pointer-events-none overflow-hidden">
                      <header className="flex items-center justify-between">
-                        <h3 className="font-bold text-slate-700 text-lg">{task.title}</h3>
+                        <h3 className="font-bold text-slate-700 text-lg" contentEditable>
+                           {task.title}
+                        </h3>
                      </header>
                      <p className="text-sm text-slate-600 truncate">{task.description}</p>
                   </div>

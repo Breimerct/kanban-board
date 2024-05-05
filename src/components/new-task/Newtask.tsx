@@ -30,8 +30,19 @@ const NewTask: FC<NewTaskProps> = ({ isOpen, onClose }) => {
          description: data.description
       };
 
-      setDB(`tasks/${data.status}`, newTask);
-      handleReset();
+      setDB(`tasks/${data.status}`, newTask).then((newTaskKey) => {
+         if (newTaskKey && !!data.subtasks?.length) {
+            data.subtasks?.forEach((subtask) => {
+               setDB(`subtasks/${newTaskKey}`, {
+                  ...subtask,
+                  taskId: newTaskKey,
+                  isCompleted: false
+               });
+            });
+         }
+
+         handleReset();
+      });
    };
 
    const handleReset = () => {

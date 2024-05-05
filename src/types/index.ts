@@ -1,6 +1,6 @@
 import { DataSnapshot, Unsubscribe } from 'firebase/database';
 
-export type SetDB = <T>(path: string, data: T) => Promise<void>;
+export type SetDB = <T>(path: string, data: T) => Promise<string | null>;
 
 export type GetDB = (
    path: string,
@@ -30,6 +30,13 @@ export type Task = {
    title: string;
    description: string;
    orderNumber: number;
+};
+
+export type Subtask = {
+   id: string;
+   taskId: string;
+   title: string;
+   isCompleted: boolean;
 };
 
 export enum ThemeColor {

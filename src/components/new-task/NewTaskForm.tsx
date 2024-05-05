@@ -17,7 +17,7 @@ export type FormDataTask = {
    title: string;
    description: string;
    status: string;
-   subtasks?: { title: string }[];
+   subtasks?: { title?: string }[];
 };
 
 interface NewTaskFormProps {
@@ -33,7 +33,7 @@ const NewTaskForm: FC<NewTaskFormProps> = ({ onReset, onSaved, optionsSelectStat
       setStatuses(optionsSelectStatus);
    }, [optionsSelectStatus]);
 
-   const defaultValues: FormDataTask = {
+   const defaultValues = {
       title: '',
       description: '',
       status: '',
@@ -61,7 +61,7 @@ const NewTaskForm: FC<NewTaskFormProps> = ({ onReset, onSaved, optionsSelectStat
                .trim()
                .min(3, 'Subtask name must be at least 3 characters')
                .max(50, 'Subtask name must be at most 50 characters')
-               .required('Subtask name is required')
+               .optional()
          })
       )
    });
@@ -75,9 +75,9 @@ const NewTaskForm: FC<NewTaskFormProps> = ({ onReset, onSaved, optionsSelectStat
       reset
    } = useForm<FormDataTask>({ defaultValues, resolver });
 
-   const onSubmit = (data: FormDataTask) => {
+   const onSubmit = handleSubmit((data) => {
       onSaved?.(data);
-   };
+   });
 
    const handleReset = () => {
       reset();
@@ -85,8 +85,8 @@ const NewTaskForm: FC<NewTaskFormProps> = ({ onReset, onSaved, optionsSelectStat
    };
 
    return (
-      <form className="p-4 flex flex-col gap-2 h-full" onSubmit={handleSubmit(onSubmit)} onReset={handleReset}>
-         <div className="overflow-y-auto pr-4 h-full">
+      <form className="p-4 flex flex-col gap-2 h-full" onSubmit={onSubmit} onReset={handleReset}>
+         <div className="flex flex-col gap-2 overflow-y-auto pr-4 h-full">
             <div className="form-group">
                <Input
                   {...register('title')}

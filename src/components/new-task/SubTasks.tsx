@@ -13,7 +13,7 @@ interface SubtasksProps {
 }
 
 const Subtasks: FC<SubtasksProps> = ({ errors, register }) => {
-   const [subtasksNumber, setSubtasksNumber] = useState(3);
+   const [subtasksNumber, setSubtasksNumber] = useState(1);
 
    return (
       <>
@@ -33,7 +33,7 @@ const Subtasks: FC<SubtasksProps> = ({ errors, register }) => {
 
                <Button
                   type="button"
-                  color={ThemeColor.NEGATIVE}
+                  color={ThemeColor.PRIMARY}
                   variant={ButtonVariant.OUTLINE}
                   disabled={subtasksNumber === 0}
                   className="!rounded-full !p-0 h-8 w-8"
@@ -43,12 +43,12 @@ const Subtasks: FC<SubtasksProps> = ({ errors, register }) => {
             </div>
          </header>
 
-         <div className="flex flex-col gap-2 max-h-60 overflow-y-auto scroll-pl-4">
+         <div className="flex flex-col gap-3 max-h-60 overflow-y-auto mt-2">
             {Array.from({ length: subtasksNumber }).map((_, index) => (
                <div key={index}>
                   <Input
                      {...register(`subtasks.${index}.title` as const)}
-                     label={`Subtask ${index + 1}`}
+                     label=""
                      isError={!!errors.subtasks?.[index]?.title?.message}
                      errorMessage={errors.subtasks?.[index]?.title?.message}
                      placeholder="e.g. 'Subtask 1'"

@@ -71,10 +71,17 @@ export const updateData: UpdateData = (path, data) => {
 };
 
 export const setDB: SetDB = async (path, data) => {
-   const rootPath = `users/${auth.currentUser?.uid}/${path}`;
-   const pushRef = push(ref(db, rootPath));
+   try {
+      const rootPath = `users/${auth.currentUser?.uid}/${path}`;
+      const pushRef = push(ref(db, rootPath));
 
-   return await set(pushRef, { id: pushRef.key, ...data });
+      await set(pushRef, { id: pushRef.key, ...data });
+
+      return pushRef.key;
+   } catch (error) {
+      console.error(error);
+      return null;
+   }
 };
 
 export const getDB: GetDB = (path, snapshot, error) => {
