@@ -63,7 +63,7 @@ const NewBoardForm: FC<NewBoardFormProps> = ({ onReset, onSave }) => {
    };
 
    return (
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSaveNewBoard)} onReset={onCancel}>
+      <form className="p-4 flex flex-col gap-4" onSubmit={handleSubmit(onSaveNewBoard)} onReset={onCancel}>
          <div>
             <Input
                {...register('boardName')}

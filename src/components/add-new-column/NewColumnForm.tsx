@@ -65,7 +65,7 @@ const NewColumnForm: FC<NewColumnFormProps> = ({ boardId, onReset, onSave }) => 
    };
 
    return (
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)} onReset={handleReset}>
+      <form className="p-4 flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)} onReset={handleReset}>
          <div>
             <Input
                {...register('title')}
