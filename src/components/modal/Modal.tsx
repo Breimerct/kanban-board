@@ -55,12 +55,12 @@ const Modal: FC<ModalProps> = ({
       <>
          {showModal && (
             <div
-               className={`fixed inset-0 z-50 overflow-hidden bg-gray-500 bg-opacity-75 backdrop-blur-sm transition-all ease-in-out`}
+               className={`fixed inset-0 z-10 overflow-hidden bg-gray-500 bg-opacity-75 backdrop-blur-sm transition-all ease-in-out`}
             >
                <div
-                  className={`mx-auto p-4 w-screen h-screen flex items-center animate-once animate-ease-in-out ${showModal ? 'animate-jump-in' : 'animate-jump-out'}`}
+                  className={`mx-auto p-4 z-20 w-screen h-screen flex items-center justify-center animate-once animate-ease-in-out ${showModal ? 'animate-jump-in' : 'animate-jump-out'}`}
                >
-                  <div className="w-full max-w-lg mx-auto relative shadow-lg rounded-lg bg-white overflow-hidden">
+                  <div className="w-full max-w-lg h-full sm:h-[initial] flex flex-col relative shadow-lg rounded-lg bg-white overflow-hidden">
                      <header className="flex justify-between items-center text-gray-800 shadow-md">
                         <h2 className="text-2xl font-bold p-4">{title}</h2>
                         <button onClick={handleClose} className="p-2 hover:text-opacity-75 focus:outline-none">
@@ -68,7 +68,7 @@ const Modal: FC<ModalProps> = ({
                         </button>
                      </header>
 
-                     <main className="p-6 text-left">{children}</main>
+                     <main className="text-left h-full max-h-full overflow-hidden">{children}</main>
 
                      {!hideActions && (
                         <footer className="flex justify-end p-4 gap-2 border border-t-gray-300">
