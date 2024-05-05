@@ -3,7 +3,7 @@ import { useDragAndDrop } from '@formkit/drag-and-drop/react';
 import { animations } from '@formkit/drag-and-drop';
 import { Task } from '../../types';
 import useGetCollection from '../../hooks/useGetCollection';
-import { setDB } from '../../plugins/firebase';
+import { updateData } from '../../plugins/firebase';
 
 interface TaskProps {
    statusId: string;
@@ -32,7 +32,7 @@ const Tasks: FC<TaskProps> = ({ statusId }) => {
 
       if (!parentStatusId || parentStatusId === taskStatusId) {
          tasks.forEach((task, index) => {
-            setDB(`tasks/${task.statusId}/${task.id}/orderNumber`, index + 1);
+            updateData(`tasks/${task.statusId}/${task.id}/orderNumber`, index + 1);
          });
 
          return;
@@ -47,8 +47,12 @@ const Tasks: FC<TaskProps> = ({ statusId }) => {
          statusId: parentStatusId
       };
 
-      await setDB(`tasks/${parentStatusId}/${taskId}`, task);
-      await setDB(`tasks/${taskStatusId}/${taskId}`, null);
+      const updated: Record<string, unknown> = {};
+
+      updated[`tasks/${parentStatusId}/${taskId}`] = task;
+      updated[`tasks/${taskStatusId}/${taskId}`] = null;
+
+      updateData(updated);
    };
 
    return (

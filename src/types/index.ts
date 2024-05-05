@@ -1,6 +1,6 @@
 import { DataSnapshot, Unsubscribe } from 'firebase/database';
 
-export type SetDB = <T>(path: string, data: T) => Promise<boolean>;
+export type SetDB = <T>(path: string, data: T) => Promise<void>;
 
 export type GetDB = (
    path: string,
@@ -8,7 +8,7 @@ export type GetDB = (
    error?: (error: Error) => void
 ) => Unsubscribe;
 
-export type UpdateData = (updates: object) => void;
+export type UpdateData = (path: string | Record<string, unknown>, data?: unknown) => void;
 
 export type Board = {
    id: string;

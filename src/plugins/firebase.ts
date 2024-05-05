@@ -1,7 +1,7 @@
 //#region Imports
 // Import firebase modules
 import { initializeApp } from 'firebase/app';
-import { DatabaseReference, getDatabase, onValue, ref, set, update } from 'firebase/database';
+import { getDatabase, onValue, push, ref, set, update } from 'firebase/database';
 import {
    getAuth,
    getRedirectResult,
@@ -36,8 +36,6 @@ const githubProvider = new GithubAuthProvider();
 const googleProvider = new GoogleAuthProvider();
 export const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-const dbRef = ref(db);
-
 export const auth = getAuth(app);
 
 //#region Functions
@@ -49,25 +47,39 @@ export const signInWithGoogle = signInWithRedirect.bind(null, auth, googleProvid
 
 export const logout = signOut.bind(null, auth);
 
-export const updateData: UpdateData = (updates) => {
-   console.log(updates);
-   update(dbRef, updates as DatabaseReference);
+export const updateData: UpdateData = (path, data) => {
+   const rootPath = `users/${auth.currentUser?.uid}`;
+   const dbRef = ref(db);
+
+   if (!data && typeof path === 'object') {
+      const updates = Object.entries(path).reduce(
+         (acc, [key, value]) => ({ ...acc, [`${rootPath}/${key}`]: value }),
+         {} as Record<string, unknown>
+      );
+
+      update(dbRef, updates);
+
+      return;
+   }
+
+   if (typeof path === 'string') {
+      const updates: Record<string, unknown> = {};
+      updates[`${rootPath}/${path}`] = data;
+
+      update(dbRef, updates);
+   }
 };
 
-export const setDB: SetDB = (path, data) => {
-   return new Promise((resolve, reject) => {
-      try {
-         const rootPath = `users/${auth.currentUser?.uid}/${path}`;
-         set(ref(db, rootPath), data);
-         resolve(true);
-      } catch (error) {
-         reject(error);
-      }
-   });
+export const setDB: SetDB = async (path, data) => {
+   const rootPath = `users/${auth.currentUser?.uid}/${path}`;
+   const pushRef = push(ref(db, rootPath));
+
+   return await set(pushRef, { id: pushRef.key, ...data });
 };
 
 export const getDB: GetDB = (path, snapshot, error) => {
    const rootPath = `users/${auth.currentUser?.uid}/${path}`;
    const starCountRef = ref(db, rootPath);
+
    return onValue(starCountRef, snapshot, error);
 };

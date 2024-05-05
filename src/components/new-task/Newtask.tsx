@@ -24,15 +24,13 @@ const NewTask: FC<NewTaskProps> = ({ isOpen, onClose }) => {
    }, [isOpen]);
 
    const onSubmit = (data: FormDataTask) => {
-      const id = crypto.randomUUID();
       const newTask = {
-         id,
          statusId: data.status,
          title: data.title,
          description: data.description
       };
 
-      setDB(`tasks/${data.status}/${id}`, newTask);
+      setDB(`tasks/${data.status}`, newTask);
       handleReset();
    };
 

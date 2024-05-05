@@ -47,9 +47,7 @@ const NewBoardForm: FC<NewBoardFormProps> = ({ onReset, onSave }) => {
 
    const onSaveNewBoard = async (data: FormData) => {
       try {
-         const id = crypto.randomUUID();
-
-         await setDB(`boards/${id}`, {
+         await setDB(`boards`, {
             title: data.boardName,
             userId: currentUser?.uid
          });

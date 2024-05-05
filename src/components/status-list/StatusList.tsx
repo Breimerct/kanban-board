@@ -4,7 +4,7 @@ import AddNewColumn from '../add-new-column/AddNewColumn';
 import Column from '../column/Column';
 import { Status } from '../../types';
 import { animations } from '@formkit/drag-and-drop';
-import { setDB } from '../../plugins/firebase';
+import { updateData } from '../../plugins/firebase';
 
 interface StatusListProps {
    boardId?: string;
@@ -30,7 +30,7 @@ const StatusList: FC<StatusListProps> = ({ statuses, boardId }) => {
 
    const handleDrop = () => {
       statusData.forEach(({ id }, index) => {
-         setDB(`statuses/${boardId}/${id}/orderNumber`, index + 1);
+         updateData(`statuses/${boardId}/${id}/orderNumber`, index + 1);
       });
    };
 
