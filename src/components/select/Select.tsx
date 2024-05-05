@@ -1,6 +1,6 @@
 import { FC, forwardRef } from 'react';
 
-type Option = Record<string, string>;
+type Option = Record<string, string | number>;
 
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
    label: string;
@@ -35,7 +35,7 @@ const Select: FC<SelectProps> = forwardRef<HTMLSelectElement, SelectProps>(
 
       const errorLabelClasses = isError ? 'text-red-500' : 'text-gray-800';
 
-      const returnValue = (obj: Option) => (returnValueKey ? obj[returnValueKey] : JSON.stringify(obj));
+      const returnValue = (obj: Option) => (returnValueKey ? String(obj[returnValueKey]) : JSON.stringify(obj));
 
       const handleChanges = (e: React.ChangeEvent<HTMLSelectElement>) => {
          if (props.onChange) {
