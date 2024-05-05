@@ -10,12 +10,14 @@ import Button from '../button/Button';
 import Input from '../input/Input';
 import Select from '../select/Select';
 import Textarea from '../textarea/Textarea';
+import Subtasks from './SubTasks';
 //#endregion
 
 export type FormDataTask = {
    title: string;
    description: string;
    status: string;
+   subtasks?: { title: string }[];
 };
 
 interface NewTaskFormProps {
@@ -34,26 +36,35 @@ const NewTaskForm: FC<NewTaskFormProps> = ({ onReset, onSaved, optionsSelectStat
    const defaultValues: FormDataTask = {
       title: '',
       description: '',
-      status: ''
+      status: '',
+      subtasks: []
    };
 
-   const schema = yup
-      .object({
-         title: yup
-            .string()
-            .trim()
-            .min(3, 'Board name must be at least 3 characters')
-            .max(50, 'Board name must be at most 50 characters')
-            .required('Board name is required'),
-         description: yup
-            .string()
-            .trim()
-            .min(3, 'Description must be at least 3 characters')
-            .max(250, 'Description must be at most 500 characters')
-            .required('Description is required'),
-         status: yup.string().trim().required('Status is required')
-      })
-      .required();
+   const schema = yup.object({
+      title: yup
+         .string()
+         .trim()
+         .min(3, 'Board name must be at least 3 characters')
+         .max(50, 'Board name must be at most 50 characters')
+         .required('Board name is required'),
+      description: yup
+         .string()
+         .trim()
+         .min(3, 'Description must be at least 3 characters')
+         .max(250, 'Description must be at most 500 characters')
+         .required('Description is required'),
+      status: yup.string().trim().required('Status is required'),
+      subtasks: yup.array().of(
+         yup.object({
+            title: yup
+               .string()
+               .trim()
+               .min(3, 'Subtask name must be at least 3 characters')
+               .max(50, 'Subtask name must be at most 50 characters')
+               .required('Subtask name is required')
+         })
+      )
+   });
 
    const resolver = yupResolver(schema);
 
@@ -74,46 +85,52 @@ const NewTaskForm: FC<NewTaskFormProps> = ({ onReset, onSaved, optionsSelectStat
    };
 
    return (
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)} onReset={handleReset}>
-         <div className="form-group">
-            <Input
-               {...register('title')}
-               label="Title"
-               isError={!!errors.title?.message}
-               errorMessage={errors.title?.message}
-               placeholder="e.g. 'Task 1"
-               type="text"
-               id="taskName"
-            />
+      <form className="p-4 flex flex-col gap-2 h-full" onSubmit={handleSubmit(onSubmit)} onReset={handleReset}>
+         <div className="overflow-y-auto pr-4 h-full">
+            <div className="form-group">
+               <Input
+                  {...register('title')}
+                  label="Title"
+                  isError={!!errors.title?.message}
+                  errorMessage={errors.title?.message}
+                  placeholder="e.g. 'Task 1"
+                  type="text"
+                  id="taskName"
+               />
+            </div>
+
+            <div>
+               <Textarea
+                  {...register('description')}
+                  label="Task Description"
+                  isError={!!errors.description?.message}
+                  errorMessage={errors.description?.message}
+                  placeholder='e.g "This task is about..."'
+                  id="taskDescription"
+                  rows={3}
+               ></Textarea>
+            </div>
+
+            <div>
+               <Select
+                  {...register('status')}
+                  label="Status"
+                  isError={!!errors.status?.message}
+                  errorMessage={errors.status?.message}
+                  options={statuses}
+                  defaultOption="Select a status"
+                  displayValue="title"
+                  returnValueKey="id"
+                  id="status"
+               ></Select>
+            </div>
+
+            <div className="border-t border-gray-300 pt-4 mt-4">
+               <Subtasks register={register} errors={errors} />
+            </div>
          </div>
 
-         <div className="form-group">
-            <Textarea
-               {...register('description')}
-               label="Task Description"
-               isError={!!errors.description?.message}
-               errorMessage={errors.description?.message}
-               placeholder='e.g "This task is about..."'
-               id="taskDescription"
-               rows={3}
-            ></Textarea>
-         </div>
-
-         <div className="form-group">
-            <Select
-               {...register('status')}
-               label="Status"
-               isError={!!errors.status?.message}
-               errorMessage={errors.status?.message}
-               options={statuses}
-               defaultOption="Select a status"
-               displayValue="title"
-               returnValueKey="id"
-               id="status"
-            ></Select>
-         </div>
-
-         <div className="flex justify-center items-center gap-4">
+         <div className="flex justify-center items-center gap-4 mt-4">
             <Button
                variant={ButtonVariant.OUTLINE}
                color={ThemeColor.NEGATIVE}
