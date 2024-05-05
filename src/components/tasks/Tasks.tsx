@@ -4,7 +4,6 @@ import { animations } from '@formkit/drag-and-drop';
 import { Task } from '../../types';
 import useGetCollection from '../../hooks/useGetCollection';
 import { setDB } from '../../plugins/firebase';
-// import { setDB } from '../../plugins/firebase';
 
 interface TaskProps {
    statusId: string;
@@ -33,6 +32,10 @@ const Tasks: FC<TaskProps> = ({ statusId, boardId }) => {
       const { taskStatusId, taskId } = $liElement.dataset;
 
       if (!parentStatusId || parentStatusId === taskStatusId) {
+         tasks.forEach((task, index) => {
+            setDB(`boards/${boardId}/statuses/${task.statusId}/tasks/${task.id}/orderNumber`, index + 1);
+         });
+
          return;
       }
 
@@ -44,11 +47,6 @@ const Tasks: FC<TaskProps> = ({ statusId, boardId }) => {
          ...taskResult,
          statusId: parentStatusId
       };
-
-      tasksCollection.forEach(async (task, index) => {
-         console.log('task', task);
-         console.log('index', index);
-      });
 
       await setDB(`boards/${boardId}/statuses/${parentStatusId}/tasks/${taskId}`, task);
       await setDB(`boards/${boardId}/statuses/${taskStatusId}/tasks/${taskId}`, null);
