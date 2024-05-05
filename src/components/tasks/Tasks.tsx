@@ -4,6 +4,7 @@ import { animations } from '@formkit/drag-and-drop';
 import { Task } from '../../types';
 import useGetCollection from '../../hooks/useGetCollection';
 import { updateData } from '../../plugins/firebase';
+import TaskItem from './taskItem';
 
 interface TaskProps {
    statusId: string;
@@ -14,7 +15,7 @@ const Tasks: FC<TaskProps> = ({ statusId }) => {
       path: `tasks/${statusId}`
    }) as Task[];
 
-   const [taskList, tasks, setValues] = useDragAndDrop<HTMLOListElement, Task>(tasksCollection, {
+   const [taskList, tasks, setValues] = useDragAndDrop<HTMLUListElement, Task>(tasksCollection, {
       group: 'tasks',
       dropZoneClass: 'border-dashed border-2 border-gray-300 opacity-50',
       plugins: [animations({ duration: 250 })]
@@ -64,24 +65,8 @@ const Tasks: FC<TaskProps> = ({ statusId }) => {
             ref={taskList}
             role="card"
          >
-            {tasks.map((task, index) => (
-               <li
-                  className="p-4 bg-gray-400 shadow-md rounded-md active:cursor-grabbing cursor-grab transition-all ease-in-out"
-                  id={`task-${index + 1}`}
-                  data-task-id={task.id}
-                  data-task-status-id={task.statusId}
-                  role="card-section"
-                  key={task.id}
-               >
-                  <div role="task-item" className="min-w-full pointer-events-none overflow-hidden">
-                     <header className="flex items-center justify-between">
-                        <h3 className="font-bold text-slate-700 text-lg" contentEditable>
-                           {task.title}
-                        </h3>
-                     </header>
-                     <p className="text-sm text-slate-600 truncate">{task.description}</p>
-                  </div>
-               </li>
+            {tasks.map((task) => (
+               <TaskItem key={task.id} task={task} />
             ))}
          </ul>
       </div>
