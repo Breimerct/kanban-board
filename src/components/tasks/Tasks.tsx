@@ -7,12 +7,11 @@ import { setDB } from '../../plugins/firebase';
 
 interface TaskProps {
    statusId: string;
-   boardId: string;
 }
 
-const Tasks: FC<TaskProps> = ({ statusId, boardId }) => {
+const Tasks: FC<TaskProps> = ({ statusId }) => {
    const tasksCollection = useGetCollection({
-      path: `boards/${boardId}/statuses/${statusId}/tasks`
+      path: `tasks/${statusId}`
    }) as Task[];
 
    const [taskList, tasks, setValues] = useDragAndDrop<HTMLOListElement, Task>(tasksCollection, {
@@ -33,7 +32,7 @@ const Tasks: FC<TaskProps> = ({ statusId, boardId }) => {
 
       if (!parentStatusId || parentStatusId === taskStatusId) {
          tasks.forEach((task, index) => {
-            setDB(`boards/${boardId}/statuses/${task.statusId}/tasks/${task.id}/orderNumber`, index + 1);
+            setDB(`tasks/${task.statusId}/${task.id}/orderNumber`, index + 1);
          });
 
          return;
@@ -48,8 +47,8 @@ const Tasks: FC<TaskProps> = ({ statusId, boardId }) => {
          statusId: parentStatusId
       };
 
-      await setDB(`boards/${boardId}/statuses/${parentStatusId}/tasks/${taskId}`, task);
-      await setDB(`boards/${boardId}/statuses/${taskStatusId}/tasks/${taskId}`, null);
+      await setDB(`tasks/${parentStatusId}/${taskId}`, task);
+      await setDB(`tasks/${taskStatusId}/${taskId}`, null);
    };
 
    return (

@@ -17,7 +17,7 @@ interface NewTaskProps {
 const NewTask: FC<NewTaskProps> = ({ isOpen, onClose }) => {
    const [showNewTask, setShowNewTask] = useState(isOpen);
    const { id: boardId } = useParams<{ id: string }>();
-   const statuses = useGetCollection({ path: `boards/${boardId}/statuses` }) as Status[];
+   const statuses = useGetCollection({ path: `statuses/${boardId}` }) as Status[];
 
    useEffect(() => {
       setShowNewTask(isOpen);
@@ -32,7 +32,7 @@ const NewTask: FC<NewTaskProps> = ({ isOpen, onClose }) => {
          description: data.description
       };
 
-      setDB(`boards/${boardId}/statuses/${data.status}/tasks/${id}`, newTask);
+      setDB(`tasks/${data.status}/${id}`, newTask);
       handleReset();
    };
 

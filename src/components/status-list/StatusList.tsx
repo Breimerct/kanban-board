@@ -30,7 +30,7 @@ const StatusList: FC<StatusListProps> = ({ statuses, boardId }) => {
 
    const handleDrop = () => {
       statusData.forEach(({ id }, index) => {
-         setDB(`boards/${boardId}/statuses/${id}/orderNumber`, index + 1);
+         setDB(`statuses/${boardId}/${id}/orderNumber`, index + 1);
       });
    };
 

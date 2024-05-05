@@ -14,7 +14,7 @@ const Board = () => {
    const { id: boardId } = useParams<{ id: string }>();
    const navigate = useNavigate();
    const { hash: routeHash } = useLocation();
-   const statuses = useGetCollection({ path: `boards/${boardId}/statuses` }) as Status[];
+   const statuses = useGetCollection({ path: `statuses/${boardId}` }) as Status[];
    const [showNewTask, setShowNewTask] = useState(false);
 
    useEffect(() => {
