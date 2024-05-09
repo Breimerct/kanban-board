@@ -27,7 +27,12 @@ const Tasks: FC<TaskProps> = ({ statusId }) => {
 
    useEffect(() => {
       setValues(tasksCollection);
+      console.log('tasksCollection', tasksCollection);
    }, [tasksCollection, setValues]);
+
+   useEffect(() => {
+      // console.log('tasks', tasks);
+   }, [tasks]);
 
    const handleDrop = () => async (event: DragEvent<HTMLUListElement>) => {
       const $liElement = event.target as HTMLLIElement;
@@ -60,7 +65,7 @@ const Tasks: FC<TaskProps> = ({ statusId }) => {
       updateData(updated);
    };
 
-   const handleClickedTask = (task: Task) => () => {
+   const handleClickedTask = (task: Task) => {
       setTask(task);
       navigate({ hash: '#task-detail' });
    };
@@ -75,7 +80,7 @@ const Tasks: FC<TaskProps> = ({ statusId }) => {
             role="card"
          >
             {tasks.map((task) => (
-               <TaskItem key={task.id} task={task} onClick={handleClickedTask(task)} />
+               <TaskItem key={task.id} task={task} onSelectTask={handleClickedTask} />
             ))}
          </ul>
       </div>

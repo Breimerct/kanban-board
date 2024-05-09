@@ -5,7 +5,7 @@ import { ButtonVariant, ThemeColor } from '../../types';
 
 import Button from '../button/Button';
 import { MinusIcon, PlusIcon } from '../icons/Icons';
-import Input from '../input/Input';
+import Input from '../form-control/input/Input';
 
 interface SubtasksProps {
    register: UseFormRegister<FormDataTask>;

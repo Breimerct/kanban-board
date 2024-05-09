@@ -1,20 +1,27 @@
-import { FC, HTMLAttributes } from 'react';
+import { FC, HTMLAttributes, MouseEvent } from 'react';
 import { Subtask, Task } from '../../types';
 import useGetCollection from '../../hooks/useGetCollection';
 
 interface TaskItemProps extends HTMLAttributes<HTMLLIElement> {
    task: Task;
+   onSelectTask?: (task: Task) => void;
 }
 
-const TaskItem: FC<TaskItemProps> = ({ task, className, ...props }) => {
+const TaskItem: FC<TaskItemProps> = ({ task, className, onSelectTask, ...props }) => {
    const subtasks = useGetCollection({ path: `subtasks/${task.id}` }) as Subtask[];
 
    const subtasksCompleted = subtasks.filter((subtask) => subtask.isCompleted).length;
    const subtasksTotal = subtasks.length;
 
+   const handleClick = (event: MouseEvent<HTMLLIElement>) => {
+      onSelectTask?.(task);
+      props.onClick?.({ ...event });
+   };
+
    return (
       <li
          {...props}
+         onClick={handleClick}
          className={`p-4 bg-gray-400 shadow-md rounded-md active:cursor-grabbing cursor-pointer transition-all ease-in-out ${className}`}
          data-task-status-id={task.statusId}
          data-task-id={task.id}

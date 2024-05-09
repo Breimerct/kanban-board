@@ -7,7 +7,7 @@ import useCurrentUser from '../../hooks/useCurrentUser';
 import { setDB } from '../../plugins/firebase';
 
 import Button from '../button/Button';
-import Input from '../input/Input';
+import Input from '../form-control/input/Input';
 
 interface NewBoardFormProps {
    onReset?: () => void;

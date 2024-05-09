@@ -7,9 +7,9 @@ import * as yup from 'yup';
 
 //#region Imports components
 import Button from '../button/Button';
-import Input from '../input/Input';
-import Select from '../select/Select';
-import Textarea from '../textarea/Textarea';
+import Input from '../form-control/input/Input';
+import Select from '../form-control/select/Select';
+import Textarea from '../form-control/textarea/Textarea';
 import Subtasks from './SubTasks';
 //#endregion
 
