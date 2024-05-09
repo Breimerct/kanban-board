@@ -27,12 +27,7 @@ const Tasks: FC<TaskProps> = ({ statusId }) => {
 
    useEffect(() => {
       setValues(tasksCollection);
-      console.log('tasksCollection', tasksCollection);
    }, [tasksCollection, setValues]);
-
-   useEffect(() => {
-      // console.log('tasks', tasks);
-   }, [tasks]);
 
    const handleDrop = () => async (event: DragEvent<HTMLUListElement>) => {
       const $liElement = event.target as HTMLLIElement;

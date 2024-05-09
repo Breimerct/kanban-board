@@ -6,8 +6,14 @@ import { PlusIcon } from '../icons/Icons';
 import Button from '../button/Button';
 import Input from '../form-control/input/Input';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { setDB } from '../../plugins/firebase';
+import { FC } from 'react';
 
-const NewTaskFormInput = () => {
+interface NewTaskFormInputProps {
+   taskId: string;
+}
+
+const NewTaskFormInput: FC<NewTaskFormInputProps> = ({ taskId }) => {
    const defaultValues = { title: '' };
 
    const schema = yup.object({
@@ -29,7 +35,10 @@ const NewTaskFormInput = () => {
       reset
    } = useForm({ defaultValues, resolver });
 
-   const onsubmit = handleSubmit((data) => console.log(data));
+   const onsubmit = handleSubmit((data) => {
+      setDB(`subtasks/${taskId}`, data);
+      reset();
+   });
 
    const onBlur = () => {
       const { title } = getValues();
@@ -38,6 +47,10 @@ const NewTaskFormInput = () => {
          reset();
       }
    };
+
+   const buttonErrorClasses = errors.title?.message
+      ? 'outline-red-500 text-red-500 hover:text-white hover:bg-red-500'
+      : '';
 
    return (
       <form onSubmit={onsubmit}>
@@ -50,7 +63,7 @@ const NewTaskFormInput = () => {
                onBlur={onBlur}
                append={
                   <Button
-                     className={`!p-0 !rounded-full w-7 h-7 ${errors.title?.message ? 'outline-red-500 text-red-500 hover:text-white hover:bg-red-500' : 'bg-primary'}`}
+                     className={`!p-0 !rounded-full w-7 h-7 ${buttonErrorClasses}`}
                      variant={ButtonVariant.OUTLINE}
                      icon={<PlusIcon size={20} />}
                      color={ThemeColor.PRIMARY}

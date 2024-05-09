@@ -34,7 +34,7 @@ const TaskDetail: FC<TaskDetailProps> = () => {
 
    const updateTask = (property: string) => (value: string) => {
       updateData(`tasks/${storeTask?.statusId}/${storeTask?.id}/${property}`, value);
-      console.log('updateTask', property, value);
+      // console.log('updateTask', property, value);
    };
 
    return (
@@ -60,10 +60,12 @@ const TaskDetail: FC<TaskDetailProps> = () => {
                />
 
                <div className="mt-10 flex flex-col gap-3 px-2">
-                  <NewTaskFormInput />
-                  {subtasks.map((subtask) => (
-                     <SubTaskItem key={subtask.id} subtask={subtask} taskId={storeTask.id} />
-                  ))}
+                  <NewTaskFormInput taskId={storeTask.id} />
+                  <div className="flex flex-col gap-3 pb-10 min-h-60 max-h-80 overflow-y-auto">
+                     {subtasks.map((subtask) => (
+                        <SubTaskItem key={subtask.id} subtask={subtask} taskId={storeTask.id} />
+                     ))}
+                  </div>
                </div>
             </div>
          )}
