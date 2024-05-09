@@ -3,7 +3,7 @@ import { FC, forwardRef } from 'react';
 type Option = Record<string, string | number>;
 
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
-   label: string;
+   label?: string;
    isError?: boolean;
    errorMessage?: string;
    containerClassName?: string;
@@ -29,11 +29,7 @@ const Select: FC<SelectProps> = forwardRef<HTMLSelectElement, SelectProps>(
       },
       ref
    ) => {
-      const errorClasses = isError
-         ? 'border-red-500 text-red-500 focus:outline-none placeholder-red-400 placeholder:opacity-50'
-         : 'text-gray-800 border-gray-700 focus:outline-gray-600';
-
-      const errorLabelClasses = isError ? 'text-red-500' : 'text-gray-800';
+      const errorClasses = isError ? 'form-control-error' : '';
 
       const returnValue = (obj: Option) => (returnValueKey ? String(obj[returnValueKey]) : JSON.stringify(obj));
 
@@ -45,27 +41,27 @@ const Select: FC<SelectProps> = forwardRef<HTMLSelectElement, SelectProps>(
       };
 
       return (
-         <label htmlFor={props.id} className={`font-bold text-gray-800 ${errorLabelClasses} ${containerClassName}`}>
-            <span className="block">{label}</span>
-            <select
-               {...props}
-               ref={ref}
-               onChange={handleChanges}
-               className={`p-3 w-full shadow-md  font-semibold border rounded-md transition-all capitalize appearance-none ${className} ${errorClasses}`}
+         <>
+            <label
+               htmlFor={props.id}
+               className={`form-control ${errorClasses} ${containerClassName} ${label ? '!pt-7' : 'pt-2'}`}
             >
-               {defaultOption && (
-                  <option disabled value="">
-                     {defaultOption}
-                  </option>
-               )}
-               {options.map((option, index) => (
-                  <option key={option?.id || index} value={returnValue(option)}>
-                     {option[displayValue]}
-                  </option>
-               ))}
-            </select>
+               {label && <span className="form-control-label">{label}</span>}
+               <select {...props} ref={ref} onChange={handleChanges} className={`form-control-field ${className}`}>
+                  {defaultOption && (
+                     <option disabled value="">
+                        {defaultOption}
+                     </option>
+                  )}
+                  {options.map((option, index) => (
+                     <option key={option?.id || index} value={returnValue(option)}>
+                        {option[displayValue]}
+                     </option>
+                  ))}
+               </select>
+            </label>
             {isError && <span className="text-red-500 text-sm">{errorMessage}</span>}
-         </label>
+         </>
       );
    }
 );
