@@ -1,9 +1,10 @@
 // import { FC } from 'react';
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 
 import MainLayout from '../layouts/main-layout/MainLayout';
 import Board from '../pages/board/Board';
 import Home from '../pages/home/Home';
+import AuthLayout from '../layouts/auth-layout/AuthLayout';
 
 // interface ProtectedRouteProps {
 //    children: React.ReactNode;
@@ -31,6 +32,24 @@ const routes = createBrowserRouter([
             element: <Board />
          }
       ]
+   },
+   {
+      path: 'auth',
+      Component: AuthLayout,
+      children: [
+         {
+            path: 'login',
+            element: <h1>Login</h1>
+         },
+         {
+            path: 'register',
+            element: <h1>Register</h1>
+         }
+      ]
+   },
+   {
+      path: '*',
+      element: <Navigate to="/" />
    }
 ]);
 
