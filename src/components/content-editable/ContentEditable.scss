@@ -1,0 +1,9 @@
+.content-area {
+   resize: none;
+   field-sizing: content;
+   @apply rounded-sm p-2 w-full;
+}
+
+.active {
+   @apply outline outline-1 outline-gray-300 shadow-md;
+}
