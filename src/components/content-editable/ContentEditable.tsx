@@ -10,12 +10,15 @@ interface ContentEditableProps {
    onCancel?: () => void;
    text: string;
    className?: string;
+   disabled?: boolean;
 }
 
-const ContentEditable: FC<ContentEditableProps> = ({ onCancel, onSave, text, className }) => {
+const ContentEditable: FC<ContentEditableProps> = ({ onCancel, onSave, text, className, disabled }) => {
    const [isEditing, setIsEditing] = useState(false);
    const [textValue, setTextValue] = useState(text);
    const isActive = isEditing ? 'active' : '';
+
+   const disabledClass = disabled ? 'disabled' : '';
 
    const handleChange = (event: FormEvent<HTMLTextAreaElement>) => {
       const $textArea = event.target as HTMLTextAreaElement;
@@ -24,11 +27,14 @@ const ContentEditable: FC<ContentEditableProps> = ({ onCancel, onSave, text, cla
    };
 
    const handleSave = () => {
-      onSave(textValue);
+      onSave(textValue.trim());
+      setTextValue(textValue.trim());
       setIsEditing(false);
    };
 
    const handleFocus = (event: FormEvent<HTMLTextAreaElement>) => {
+      if (disabled) return;
+
       const $currentTarget = event.target as HTMLElement;
       $currentTarget.focus();
       setIsEditing(true);
@@ -41,16 +47,16 @@ const ContentEditable: FC<ContentEditableProps> = ({ onCancel, onSave, text, cla
    };
 
    return (
-      <div className="relative">
+      <div className="relative w-full h-full">
          <textarea
-            className={`content-area ${isActive} ${className}`}
+            className={`content-area ${isActive} ${className} ${disabledClass}`}
             onInput={handleChange}
             onFocus={handleFocus}
             readOnly={!isEditing}
             value={textValue}
          />
          {isEditing && (
-            <div className="absolute right-0 z-10 flex gap-2">
+            <div className="absolute right-0 z-40 flex gap-2">
                <Button
                   icon={<CheckIcon size={26} />}
                   variant={ButtonVariant.SOLID}
