@@ -20,7 +20,7 @@ const NewBoard: FC<NewBoardProps> = ({ isOpen, onClose }) => {
    }, [isOpen]);
 
    return (
-      <Modal hideActions title="New Board" onClose={handleClose} isOpen={showModal}>
+      <Modal hideActions classNameModalContent="!max-w-md" title="New Board" onClose={handleClose} isOpen={showModal}>
          <NewBoardForm onSave={handleClose} onReset={handleClose} />
       </Modal>
    );

@@ -27,7 +27,13 @@ const NewColumn: FC<NewColumnProps> = ({ onClose }) => {
    }, [routeHash]);
 
    return (
-      <Modal hideActions isOpen={showNewColumn} title="New column Status" onClose={handleOnClose}>
+      <Modal
+         hideActions
+         classNameModalContent="!max-w-md"
+         isOpen={showNewColumn}
+         title="New column Status"
+         onClose={handleOnClose}
+      >
          <NewColumnForm onSave={handleOnClose} onReset={handleOnClose} boardId={boardId} />
       </Modal>
    );
