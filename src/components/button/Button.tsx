@@ -12,7 +12,7 @@ const Button: FC<ButtonProps> = ({ children, ...props }) => {
    const { color, variant } = props;
 
    const className =
-      'rounded-md py-3 px-10 shadow-sm font-semibold uppercase transition-all active:animate-jump animate-once animate-duration-1000 animate-ease-in-out animate-normal animate-fill-both flex items-center justify-center gap-2 text-xs md:text-base';
+      'rounded-md py-3 px-10 shadow-sm font-semibold uppercase transition-all active:animate-jump animate-once animate-duration-1000 animate-ease-in-out animate-normal animate-fill-both flex items-center justify-center gap-2 text-xs md:text-base hover:shadow-md';
 
    const disabledClasses = 'disabled:opacity-60 disabled:cursor-not-allowed disabled:pointer-events-none';
 
