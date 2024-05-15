@@ -48,26 +48,22 @@ export const signInWithGoogle = signInWithRedirect.bind(null, auth, googleProvid
 export const logout = signOut.bind(null, auth);
 
 export const updateData: UpdateData = (path, data) => {
+   let updates: Record<string, unknown> = {};
    const rootPath = `users/${auth.currentUser?.uid}`;
    const dbRef = ref(db);
 
    if (!data && typeof path === 'object') {
-      const updates = Object.entries(path).reduce(
-         (acc, [key, value]) => ({ ...acc, [`${rootPath}/${key}`]: value }),
-         {} as Record<string, unknown>
+      updates = Object.entries(path).reduce(
+         (acc, [updatePath, value]) => ({ ...acc, [`${rootPath}/${updatePath}`]: value }),
+         {}
       );
-
-      update(dbRef, updates);
-
-      return;
    }
 
    if (typeof path === 'string') {
-      const updates: Record<string, unknown> = {};
       updates[`${rootPath}/${path}`] = data;
-
-      update(dbRef, updates);
    }
+
+   update(dbRef, updates);
 };
 
 export const setDB: SetDB = async (path, data) => {
