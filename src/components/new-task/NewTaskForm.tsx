@@ -3,7 +3,6 @@ import { FC, useEffect, useState } from 'react';
 import { ThemeColor, ButtonVariant, Status } from '../../types';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
 
 //#region Imports components
 import Button from '../button/Button';
@@ -11,6 +10,7 @@ import Input from '../form-control/input/Input';
 import Select from '../form-control/select/Select';
 import Textarea from '../form-control/textarea/Textarea';
 import Subtasks from './SubTasks';
+import { newTaskSchema } from '../../consts/formRules';
 //#endregion
 
 export type FormDataTask = {
@@ -40,28 +40,7 @@ const NewTaskForm: FC<NewTaskFormProps> = ({ onReset, onSaved, optionsSelectStat
       subtasks: []
    };
 
-   const schema = yup.object({
-      title: yup
-         .string()
-         .trim()
-         .min(3, 'Board name must be at least 3 characters')
-         .max(50, 'Board name must be at most 50 characters')
-         .required('Board name is required'),
-      description: yup
-         .string()
-         .trim()
-         .min(3, 'Description must be at least 3 characters')
-         .max(250, 'Description must be at most 500 characters')
-         .required('Description is required'),
-      status: yup.string().trim().required('Status is required'),
-      subtasks: yup.array().of(
-         yup.object({
-            title: yup.string().trim().max(50, 'Subtask name must be at most 50 characters').optional()
-         })
-      )
-   });
-
-   const resolver = yupResolver(schema);
+   const resolver = yupResolver(newTaskSchema);
 
    const {
       register,
