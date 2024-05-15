@@ -61,7 +61,6 @@
    }
 
    .form-control-read-only {
-      // border-slate-200 text-gray-500 shadow-sm outline-none focus:outline-none cursor-default
       border-color: theme('colors.slate.200');
       color: theme('colors.gray.500');
       box-shadow: theme('boxShadow.sm');
