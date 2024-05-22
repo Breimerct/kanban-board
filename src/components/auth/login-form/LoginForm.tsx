@@ -6,9 +6,11 @@ import Button from '../../button/Button';
 import { loginSchema } from '../../../consts/formRules';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import { useAuthStore } from '../../../store/auth.store';
 
 const LoginForm = () => {
    const resolver = yupResolver(loginSchema);
+   const signInWithEmailAndPass = useAuthStore((state) => state.signInWithEmailAndPass);
 
    const {
       register,
@@ -17,7 +19,7 @@ const LoginForm = () => {
    } = useForm({ resolver });
 
    const onSubmit = handleSubmit((data) => {
-      console.log(data);
+      signInWithEmailAndPass(data.email, data.password);
    });
 
    return (

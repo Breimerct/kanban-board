@@ -6,8 +6,8 @@ import {
    signInWithGitHub,
    signInWithGoogle,
    getProviderResult,
-   signInWithEmailAndPass
-   // createAccount
+   signInWithEmailAndPass,
+   createAccount
 } from '../plugins/firebase';
 import { FirebaseError } from 'firebase/app';
 import { FIREBASE_ERRORS } from '../consts/firebaseErros';
@@ -19,11 +19,11 @@ type AuthState = {
 };
 
 type AuthAction = {
-   signInWithEmailAndPass: (email: string, pass: string) => void;
+   signInWithEmailAndPass: (email: string, pass: string) => Promise<void>;
    signInWithGitHub: () => void;
    signInWithGoogle: () => void;
    getUserByProvider: () => Promise<void>;
-   createAccount: (newUser: NewUser) => void;
+   createAccount: (newUser: NewUser) => Promise<void>;
    logout: () => void;
 };
 
@@ -32,9 +32,21 @@ export const useAuthStore = create<AuthState & AuthAction>()(
       (set) => ({
          user: null,
 
-         signInWithEmailAndPass: (email, pass) => {
-            const result = signInWithEmailAndPass(email, pass);
-            console.log(result);
+         signInWithEmailAndPass: async (email, pass) => {
+            try {
+               const result = await signInWithEmailAndPass(email, pass);
+               set({ user: result });
+               console.log(result);
+            } catch (error) {
+               const { code } = error as FirebaseError;
+
+               if (code) {
+                  toast.error(FIREBASE_ERRORS[code]);
+                  console.error(FIREBASE_ERRORS[code]);
+               }
+
+               throw new Error(FIREBASE_ERRORS[code]);
+            }
          },
 
          signInWithGitHub: () => {
@@ -48,7 +60,7 @@ export const useAuthStore = create<AuthState & AuthAction>()(
          getUserByProvider: async () => {
             try {
                const result = await getProviderResult();
-               set({ user: result?.user ?? null });
+               result?.user && set({ user: result?.user });
             } catch (error) {
                const { code } = error as FirebaseError;
                toast.error(FIREBASE_ERRORS[code]);
@@ -56,14 +68,16 @@ export const useAuthStore = create<AuthState & AuthAction>()(
             }
          },
 
-         createAccount: (newUser) => {
+         createAccount: async (newUser) => {
             try {
-               // const result = createAccount(newUser);
-               console.log(newUser);
+               const result = await createAccount(newUser);
+               set({ user: result });
+               console.log(result);
             } catch (error) {
                const { code } = error as FirebaseError;
                toast.error(FIREBASE_ERRORS[code]);
-               console.error(FIREBASE_ERRORS[code]);
+               console.error(FIREBASE_ERRORS[code], code, error);
+               throw new Error(FIREBASE_ERRORS[code]);
             }
          },
 

@@ -1,7 +1,7 @@
 //#region Imports
 // Import firebase modules
 import { initializeApp } from 'firebase/app';
-import { getDatabase, onValue, push, ref, set, update } from 'firebase/database';
+import { getDatabase, onValue, push, ref, set, update, get } from 'firebase/database';
 import {
    getAuth,
    getRedirectResult,
@@ -10,7 +10,8 @@ import {
    signInWithRedirect,
    signInWithEmailAndPassword,
    createUserWithEmailAndPassword,
-   signOut
+   signOut,
+   User
 } from 'firebase/auth';
 
 // Import environment variables
@@ -23,6 +24,7 @@ import {
    VITE_FB_STORAGE_BUCKET
 } from '../consts/env';
 import { NewUser, UpdateData, type GetDB, type SetDB } from '../types';
+import { UI_AVATAR_URL_BASE } from '../consts/consts';
 //#endregion
 
 const firebaseConfig = {
@@ -47,11 +49,34 @@ export const signInWithGitHub = signInWithRedirect.bind(null, auth, githubProvid
 
 export const signInWithGoogle = signInWithRedirect.bind(null, auth, googleProvider);
 
-export const signInWithEmailAndPass = (email: string, password: string) =>
-   signInWithEmailAndPassword.bind(null, auth, email, password);
+export const signInWithEmailAndPass = async (email: string, password: string) => {
+   const { user } = await signInWithEmailAndPassword(auth, email, password);
+   const rootPath = `users/${user.uid}/profile`;
+   const userRef = ref(db, rootPath);
+   const userProfile = await get(userRef);
 
-export const createAccount = async ({ email, password }: NewUser) =>
-   createUserWithEmailAndPassword.bind(null, auth, email, password);
+   return userProfile.val() as User;
+};
+
+export const createAccount = async ({ email, password, name }: NewUser) => {
+   const { user } = await createUserWithEmailAndPassword(auth, email, password);
+
+   const rootPath = `users/${user.uid}/profile`;
+   const pushRef = ref(db, rootPath);
+
+   const newUser: Partial<User> = {
+      displayName: name.trim().toLowerCase(),
+      email: user.email,
+      emailVerified: user.emailVerified,
+      photoURL: `${UI_AVATAR_URL_BASE}&name=${name}`
+   };
+
+   console.log(newUser);
+
+   await set(pushRef, newUser);
+
+   return newUser as User;
+};
 
 export const logout = signOut.bind(null, auth);
 
@@ -79,7 +104,7 @@ export const setDB: SetDB = async (path, data) => {
       const rootPath = `users/${auth.currentUser?.uid}/${path}`;
       const pushRef = push(ref(db, rootPath));
 
-      await set(pushRef, { id: pushRef.key, ...data });
+      await set(pushRef, { uid: pushRef.key, ...data });
 
       return pushRef.key;
    } catch (error) {
