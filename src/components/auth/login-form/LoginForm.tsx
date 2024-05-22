@@ -1,24 +1,20 @@
 import { Link } from 'react-router-dom';
-import { ButtonVariant, ThemeColor } from '../../types';
+import { ButtonVariant, ThemeColor } from '../../../types';
 
-import Input from '../../components/form-control/input/Input';
-import Button from '../../components/button/Button';
-import { loginSchema } from '../../consts/formRules';
+import Input from '../../form-control/input/Input';
+import Button from '../../button/Button';
+import { loginSchema } from '../../../consts/formRules';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 
 const LoginForm = () => {
    const resolver = yupResolver(loginSchema);
-   const initialValues = {
-      email: '',
-      password: ''
-   };
 
    const {
       register,
       handleSubmit,
       formState: { errors }
-   } = useForm({ resolver, defaultValues: initialValues });
+   } = useForm({ resolver });
 
    const onSubmit = handleSubmit((data) => {
       console.log(data);
@@ -30,8 +26,8 @@ const LoginForm = () => {
             <div>
                <Input
                   {...register('email')}
-                  isError={!!errors.password?.message}
-                  errorMessage={errors.password?.message}
+                  isError={!!errors.email?.message}
+                  errorMessage={errors.email?.message}
                   label="Email"
                   type="email"
                   placeholder="Enter your email"

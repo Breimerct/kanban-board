@@ -8,6 +8,8 @@ import {
    GithubAuthProvider,
    GoogleAuthProvider,
    signInWithRedirect,
+   signInWithEmailAndPassword,
+   createUserWithEmailAndPassword,
    signOut
 } from 'firebase/auth';
 
@@ -20,7 +22,7 @@ import {
    VITE_FB_PROJECT_ID,
    VITE_FB_STORAGE_BUCKET
 } from '../consts/env';
-import { UpdateData, type GetDB, type SetDB } from '../types';
+import { NewUser, UpdateData, type GetDB, type SetDB } from '../types';
 //#endregion
 
 const firebaseConfig = {
@@ -44,6 +46,12 @@ export const getProviderResult = getRedirectResult.bind(null, auth);
 export const signInWithGitHub = signInWithRedirect.bind(null, auth, githubProvider);
 
 export const signInWithGoogle = signInWithRedirect.bind(null, auth, googleProvider);
+
+export const signInWithEmailAndPass = (email: string, password: string) =>
+   signInWithEmailAndPassword.bind(null, auth, email, password);
+
+export const createAccount = async ({ email, password }: NewUser) =>
+   createUserWithEmailAndPassword.bind(null, auth, email, password);
 
 export const logout = signOut.bind(null, auth);
 

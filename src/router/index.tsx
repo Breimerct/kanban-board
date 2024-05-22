@@ -5,6 +5,7 @@ import AuthLayout from '../layouts/auth-layout/AuthLayout';
 import Login from '../pages/login/Login';
 import Board from '../pages/board/Board';
 import Home from '../pages/home/Home';
+import Register from '../pages/register/Register';
 
 // interface ProtectedRouteProps {
 //    children: React.ReactNode;
@@ -43,7 +44,7 @@ const routes = createBrowserRouter([
          },
          {
             path: 'register',
-            element: <h1>Register</h1>
+            element: <Register />
          }
       ]
    },

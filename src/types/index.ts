@@ -51,3 +51,9 @@ export enum ButtonVariant {
    SOLID = 'solid',
    OUTLINE = 'outline'
 }
+
+export type NewUser = {
+   name: string;
+   email: string;
+   password: string;
+};

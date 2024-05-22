@@ -1,14 +1,14 @@
-import LoginForm from '../../components/auth/login-form/LoginForm';
 import AuthHeader from '../../components/auth/auth-header/AuthHeader';
+import RegisterForm from '../../components/auth/register-form/RegisterForm';
 
-const Login = () => {
+const Register = () => {
    return (
       <div className="flex flex-col items-center justify-center gap-4 w-full max-w-xl shadow-2xl p-8">
-         <AuthHeader title="Login" />
+         <AuthHeader title="Register" />
 
-         <LoginForm />
+         <RegisterForm />
       </div>
    );
 };
 
-export default Login;
+export default Register;
