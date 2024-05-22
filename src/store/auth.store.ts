@@ -15,10 +15,11 @@ import { toast } from 'sonner';
 import { NewUser } from '../types';
 
 type AuthState = {
-   user: User | null;
+   currentUser: User | null;
 };
 
 type AuthAction = {
+   setCurrentUser: (user: User | null) => void;
    signInWithEmailAndPass: (email: string, pass: string) => Promise<void>;
    signInWithGitHub: () => void;
    signInWithGoogle: () => void;
@@ -30,12 +31,14 @@ type AuthAction = {
 export const useAuthStore = create<AuthState & AuthAction>()(
    persist(
       (set) => ({
-         user: null,
+         currentUser: null,
+
+         setCurrentUser: (user) => set({ currentUser: user }),
 
          signInWithEmailAndPass: async (email, pass) => {
             try {
                const result = await signInWithEmailAndPass(email, pass);
-               set({ user: result });
+               set({ currentUser: result });
                console.log(result);
             } catch (error) {
                const { code } = error as FirebaseError;
@@ -60,7 +63,7 @@ export const useAuthStore = create<AuthState & AuthAction>()(
          getUserByProvider: async () => {
             try {
                const result = await getProviderResult();
-               result?.user && set({ user: result?.user });
+               result?.user && set({ currentUser: result?.user });
             } catch (error) {
                const { code } = error as FirebaseError;
                toast.error(FIREBASE_ERRORS[code]);
@@ -71,7 +74,7 @@ export const useAuthStore = create<AuthState & AuthAction>()(
          createAccount: async (newUser) => {
             try {
                const result = await createAccount(newUser);
-               set({ user: result });
+               set({ currentUser: result });
                console.log(result);
             } catch (error) {
                const { code } = error as FirebaseError;
@@ -81,9 +84,8 @@ export const useAuthStore = create<AuthState & AuthAction>()(
             }
          },
 
-         logout: () => {
-            logout();
-            set({ user: null });
+         logout: async () => {
+            await logout().then(() => set({ currentUser: null }));
          }
       }),
       {

@@ -2,12 +2,11 @@ import { useEffect } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 
 import KanbanBoard from '../../assets/scrum_board.svg';
-import useCurrentUser from '../../hooks/useCurrentUser';
 import { useAuthStore } from '../../store/auth.store';
 import { toast } from 'sonner';
 
 const AuthLayout = () => {
-   const { currentUser } = useCurrentUser();
+   const currentUser = useAuthStore((state) => state.currentUser);
    const getUserByProvider = useAuthStore((state) => state.getUserByProvider);
    const navigate = useNavigate();
 

@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getDB } from '../plugins/firebase';
 import { DataSnapshot } from 'firebase/database';
-import useCurrentUser from './useCurrentUser';
-
+import { useAuthStore } from '../store/auth.store';
 type GenericType = Record<string, string>;
 
 interface Props {
@@ -11,7 +10,7 @@ interface Props {
 
 const useGetCollection = ({ path }: Props) => {
    const [data, setData] = useState<object[]>([]);
-   const { currentUser } = useCurrentUser();
+   const currentUser = useAuthStore((state) => state.currentUser);
 
    useEffect(() => {
       if (!currentUser) return setData([]);

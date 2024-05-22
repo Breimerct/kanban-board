@@ -71,8 +71,6 @@ export const createAccount = async ({ email, password, name }: NewUser) => {
       photoURL: `${UI_AVATAR_URL_BASE}&name=${name}`
    };
 
-   console.log(newUser);
-
    await set(pushRef, newUser);
 
    return newUser as User;

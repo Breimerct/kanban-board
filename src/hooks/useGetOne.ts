@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getDB } from '../plugins/firebase';
 import { DataSnapshot } from 'firebase/database';
-import useCurrentUser from './useCurrentUser';
+import { useAuthStore } from '../store/auth.store';
 
 interface Props {
    path: string;
@@ -9,7 +9,7 @@ interface Props {
 
 const useGetOne = ({ path }: Props) => {
    const [data, setData] = useState<object | null>(null);
-   const { currentUser } = useCurrentUser();
+   const currentUser = useAuthStore((state) => state.currentUser);
 
    useEffect(() => {
       if (!currentUser) return setData(null);
