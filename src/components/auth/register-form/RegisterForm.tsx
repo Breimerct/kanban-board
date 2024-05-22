@@ -20,8 +20,7 @@ const RegisterForm = () => {
 
    const onSubmit = handleSubmit(async (data) => {
       try {
-         await createUser(data);
-         reset();
+         createUser(data).then(() => reset());
       } catch (error) {
          console.error(error);
       }
