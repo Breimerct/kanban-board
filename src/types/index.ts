@@ -4,6 +4,7 @@ export type SetDB = <T>(path: string, data: T) => Promise<string | null>;
 
 export type GetDB = (
    path: string,
+   userId: string,
    snapshot: (snapshot: DataSnapshot) => void,
    error?: (error: Error) => void
 ) => Unsubscribe;
