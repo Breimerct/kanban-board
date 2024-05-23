@@ -10,7 +10,7 @@ import NewTask from '../../components/new-task/Newtask';
 import useGetCollection from '../../hooks/useGetCollection';
 import StatusList from '../../components/status-list/StatusList';
 import NewColumn from '../../components/add-new-column/NewColumn';
-// import TaskDetail from '../../components/task-detail/TaskDetail';
+import TaskDetail from '../../components/task-detail/TaskDetail';
 
 const Board = () => {
    const { id: boardId } = useParams<{ id: string }>();
@@ -53,7 +53,7 @@ const Board = () => {
 
          <NewTask isOpen={showNewTask} onClose={handleCloseModal} />
          <NewColumn onClose={handleCloseModal} />
-         {/* <TaskDetail /> */}
+         <TaskDetail />
       </div>
    );
 };
