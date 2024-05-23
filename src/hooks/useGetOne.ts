@@ -14,7 +14,7 @@ const useGetOne = ({ path }: Props) => {
    useEffect(() => {
       if (!currentUser) return setData(null);
 
-      getDB(path, (snapshot: DataSnapshot) => {
+      getDB(path, currentUser.uid, (snapshot: DataSnapshot) => {
          const _data = snapshot.val();
 
          setData(_data);
