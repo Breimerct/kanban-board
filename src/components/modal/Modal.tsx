@@ -57,7 +57,7 @@ const Modal: FC<ModalProps> = ({
       <>
          {showModal && (
             <div
-               className={`fixed inset-0 z-10 overflow-hidden bg-gray-500 bg-opacity-75 backdrop-blur-sm transition-all ease-in-out`}
+               className={`fixed inset-0 z-40 overflow-hidden bg-gray-500 bg-opacity-75 backdrop-blur-sm transition-all ease-in-out`}
             >
                <div
                   className={`mx-auto p-4 z-20 w-screen h-screen flex items-center justify-center animate-once animate-ease-in-out ${showModal ? 'animate-jump-in' : 'animate-jump-out'}`}
