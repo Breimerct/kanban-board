@@ -14,9 +14,9 @@ import useGetOne from '../../hooks/useGetOne';
 interface TaskDetailProps {}
 
 const TaskDetail: FC<TaskDetailProps> = () => {
+   const { id: boardId } = useParams<{ id: string }>();
    const storeTask = useTaskStore((state) => state.task);
    const setTask = useTaskStore((state) => state.setTask);
-   const { id: boardId } = useParams<{ id: string }>();
    const task = useGetOne({ path: `tasks/${storeTask?.statusId}/${storeTask?.id}` }) as Task;
    const status = useGetOne({ path: `statuses/${boardId}/${storeTask?.statusId}` }) as Status;
    const subtasks = useGetCollection({ path: `subtasks/${storeTask?.id}` }) as Subtask[];
@@ -34,7 +34,6 @@ const TaskDetail: FC<TaskDetailProps> = () => {
 
    const updateTask = (property: string) => (value: string) => {
       updateData(`tasks/${storeTask?.statusId}/${storeTask?.id}/${property}`, value);
-      // console.log('updateTask', property, value);
    };
 
    return (
