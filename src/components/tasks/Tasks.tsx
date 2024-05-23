@@ -62,7 +62,7 @@ const Tasks: FC<TaskProps> = ({ statusId }) => {
 
    const handleClickedTask = (task: Task) => {
       setTask(task);
-      navigate({ hash: '#task-detail' });
+      navigate({ hash: `#task*${task.id}` });
    };
 
    return (
