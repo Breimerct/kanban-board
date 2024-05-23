@@ -1,10 +1,12 @@
-import { useDragAndDrop } from '@formkit/drag-and-drop/react';
 import { FC, useEffect } from 'react';
-import AddNewColumn from '../add-new-column/AddNewColumn';
-import Column from '../column/Column';
-import { Status } from '../../types';
+import { useDragAndDrop } from '@formkit/drag-and-drop/react';
 import { animations } from '@formkit/drag-and-drop';
 import { updateData } from '../../plugins/firebase';
+import { Status } from '../../types';
+
+// components imports
+import Column from '../column/Column';
+import AddNewColumn from '../add-new-column/AddNewColumn';
 
 interface StatusListProps {
    boardId?: string;
@@ -12,7 +14,7 @@ interface StatusListProps {
 }
 
 const StatusList: FC<StatusListProps> = ({ statuses, boardId }) => {
-   const [statusList, statusData, setValues] = useDragAndDrop<HTMLUListElement, Status>(statuses, {
+   const [statusList, statusData, setValues] = useDragAndDrop<HTMLUListElement, Status>([], {
       dropZoneClass: 'boarder-dashed border-2 border-gray-300 rounded-md opacity-50',
       plugins: [animations({ duration: 250 })],
       draggable: (el) => {
@@ -22,7 +24,7 @@ const StatusList: FC<StatusListProps> = ({ statuses, boardId }) => {
 
    useEffect(() => {
       setValues(statuses);
-   }, [statuses, setValues]);
+   }, [statuses]);
 
    const handleDrop = () => {
       statusData.forEach(({ id }, index) => {
