@@ -15,7 +15,7 @@ const useGetCollection = ({ path }: Props) => {
    useEffect(() => {
       if (!currentUser) return setData([]);
 
-      getDB(path, (snapshot: DataSnapshot) => {
+      getDB(path, currentUser.uid, (snapshot: DataSnapshot) => {
          const _data = snapshot.val() as Record<string, GenericType>;
          const _dataArray = Object.entries(_data || {}).map(([id, item]) => ({ id, ...item })) as GenericType[];
 
