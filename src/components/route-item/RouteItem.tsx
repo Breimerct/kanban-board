@@ -7,10 +7,10 @@ interface RouteItemProps extends React.HTMLAttributes<HTMLLIElement> {
    title: string;
    onClick?: () => void;
    icon?: React.ReactNode;
-   to: string;
+   to?: string;
 }
 
-const RouteItem: FC<RouteItemProps> = ({ title, onClick, to, icon, className }) => {
+const RouteItem: FC<RouteItemProps> = ({ title, onClick, to = '', icon, className }) => {
    const { pathname } = useLocation();
 
    const handleClick = () => {
