@@ -1,6 +1,6 @@
 //#region Imports
 import './MainLayout.scss';
-import { Board, ThemeColor, ButtonVariant } from '../../types';
+import { Board } from '../../types';
 import { FC, useEffect, useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import useGetCollection from '../../hooks/useGetCollection';
@@ -9,21 +9,15 @@ import KanbanBoard from '/kanban.svg';
 import KanbanBoardDark from '/kanban-dark-mode.svg';
 import SideBar from '../../components/sidebar/SideBar';
 import NewBoard from '../../components/new-board/NewBoard';
-import Button from '../../components/button/Button';
 import { useAuthStore } from '../../store/auth.store';
 //#endregion
 
 const MainLayout: FC = () => {
    const boards = useGetCollection({ path: `boards` }) as Board[];
    const currentUser = useAuthStore((state) => state.currentUser);
-   const logout = useAuthStore((state) => state.logout);
    const { hash: routeHash } = useLocation();
    const navigate = useNavigate();
    const [showNewBoard, setShowNewBoard] = useState(false);
-
-   const handleLogout = () => {
-      logout();
-   };
 
    const handleCloseNewBoard = () => {
       navigate({ hash: '' });
@@ -47,10 +41,6 @@ const MainLayout: FC = () => {
             <div>
                {currentUser && (
                   <div className="flex gap-10">
-                     <Button variant={ButtonVariant.SOLID} color={ThemeColor.SECONDARY} onClick={handleLogout}>
-                        logout
-                     </Button>
-
                      <picture className="flex items-center gap-2">
                         <img
                            src={currentUser.photoURL || ''}
