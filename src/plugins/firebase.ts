@@ -111,8 +111,8 @@ export const setDB: SetDB = async (path, data) => {
    }
 };
 
-export const getDB: GetDB = (path, snapshot, error) => {
-   const rootPath = `users/${auth.currentUser?.uid}/${path}`;
+export const getDB: GetDB = (path, userId, snapshot, error) => {
+   const rootPath = `users/${userId}/${path}`;
    const starCountRef = ref(db, rootPath);
 
    return onValue(starCountRef, snapshot, error);
