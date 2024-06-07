@@ -11,11 +11,13 @@ import { HomeIcon, LoginIcon, LogoutIcon, PlusIcon, SettingsIcon } from '../icon
 interface SideBarProps {
    boards: Board[];
    className?: string;
+   showSidebar?: boolean;
 }
 
-const SideBar: FC<SideBarProps> = ({ boards, className }) => {
+const SideBar: FC<SideBarProps> = ({ boards, className, showSidebar }) => {
    const logout = useAuthStore((state) => state.logout);
    const currentUser = useAuthStore((state) => state.currentUser);
+   const show = showSidebar ? 'translate-x-0' : '-translate-x-full';
 
    const handleClick = () => {
       currentUser && logout();
@@ -25,7 +27,7 @@ const SideBar: FC<SideBarProps> = ({ boards, className }) => {
 
    return (
       <aside
-         className={`w-64 h-full transition-transform z-20 absolute top-0 md:relative md:translate-x-0 ${className}`}
+         className={`w-64 h-full transition-transform z-20 absolute top-0 md:relative md:translate-x-0 ${show} ${className}`}
          aria-label="Sidebar"
       >
          <div className="h-full w-[inherit] overflow-y-auto bg-gray-50 dark:bg-gray-800">

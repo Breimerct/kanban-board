@@ -15,9 +15,14 @@ import { useAuthStore } from '../../store/auth.store';
 const MainLayout: FC = () => {
    const boards = useGetCollection({ path: `boards` }) as Board[];
    const currentUser = useAuthStore((state) => state.currentUser);
+   const [showNewBoard, setShowNewBoard] = useState(false);
+   const [showSidebar, setShowSidebar] = useState(false);
    const { hash: routeHash } = useLocation();
    const navigate = useNavigate();
-   const [showNewBoard, setShowNewBoard] = useState(false);
+
+   const closeIconClasses = showSidebar
+      ? 'before:rotate-[45deg] before:top-[44%] after:rotate-[-45deg] after:bottom-[50%]'
+      : '';
 
    const handleCloseNewBoard = () => {
       navigate({ hash: '' });
@@ -38,7 +43,7 @@ const MainLayout: FC = () => {
                </Link>
             </div>
 
-            <div>
+            <div className="flex items-center gap-4">
                {currentUser && (
                   <div className="flex gap-10">
                      <picture className="flex items-center gap-2">
@@ -50,11 +55,19 @@ const MainLayout: FC = () => {
                      </picture>
                   </div>
                )}
+
+               <div className="md:hidden">
+                  <button className="!w-7 !h-7 rounded-md" onClick={() => setShowSidebar(!showSidebar)}>
+                     <div
+                        className={`w-full h-full relative before:transition-all after:transition-all ease-in-out before:w-full before:h-[2px] before:absolute before:top-[30%] before:left-0 after:w-full after:h-[2px] after:absolute after:bottom-[30%] after:left-0 before:bg-black after:bg-black before:rounded-md after:rounded-md ${closeIconClasses}`}
+                     />
+                  </button>
+               </div>
             </div>
          </header>
 
          <div className="flex flex-1">
-            <SideBar className="h-auto" boards={boards} />
+            <SideBar className="h-auto" boards={boards} showSidebar={showSidebar} />
 
             <main className="h-full w-full relative overflow-hidden">
                <Outlet />
