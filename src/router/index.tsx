@@ -6,6 +6,7 @@ import Login from '../pages/login/Login';
 import Board from '../pages/board/Board';
 import Home from '../pages/home/Home';
 import Register from '../pages/register/Register';
+import RootLayout from '../layouts/root-layout/RootLayout';
 
 // interface ProtectedRouteProps {
 //    children: React.ReactNode;
@@ -22,29 +23,35 @@ import Register from '../pages/register/Register';
 const routes = createBrowserRouter([
    {
       path: '/',
-      Component: MainLayout,
+      element: <RootLayout />,
       children: [
          {
-            path: '/',
-            element: <Home />
+            path: 'app',
+            Component: MainLayout,
+            children: [
+               {
+                  path: 'home',
+                  element: <Home />
+               },
+               {
+                  path: 'board/:id',
+                  element: <Board />
+               }
+            ]
          },
          {
-            path: '/board/:id',
-            element: <Board />
-         }
-      ]
-   },
-   {
-      path: 'auth',
-      Component: AuthLayout,
-      children: [
-         {
-            path: 'login',
-            element: <Login />
-         },
-         {
-            path: 'register',
-            element: <Register />
+            path: 'auth',
+            Component: AuthLayout,
+            children: [
+               {
+                  path: 'login',
+                  element: <Login />
+               },
+               {
+                  path: 'register',
+                  element: <Register />
+               }
+            ]
          }
       ]
    },

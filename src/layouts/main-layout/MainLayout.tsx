@@ -37,7 +37,7 @@ const MainLayout: FC = () => {
       <div className="flex flex-col h-screen overflow-hidden">
          <header className="w-full px-4 p-2 shadow-md h-20 flex items-center justify-between bg-gray-50 dark:bg-gray-800">
             <div>
-               <Link to="/">
+               <Link to="/app/home">
                   <img src={KanbanBoard} alt="kanban board" className="w-auto h-10 dark:hidden" />
                   <img src={KanbanBoardDark} alt="kanban board" className="w-auto h-10 hidden dark:block" />
                </Link>

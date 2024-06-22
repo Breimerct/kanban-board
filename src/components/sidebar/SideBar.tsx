@@ -33,12 +33,12 @@ const SideBar: FC<SideBarProps> = ({ boards, className, showSidebar }) => {
          <div className="h-full w-[inherit] overflow-y-auto bg-gray-50 dark:bg-gray-800">
             <ul className="h-full px-3 py-4 font-medium flex flex-col justify-between gap-2">
                <div className="flex flex-col gap-2">
-                  <RouteItem to="/" icon={<HomeIcon size={30} />} title="Home" />
+                  <RouteItem to="/app/home" icon={<HomeIcon size={30} />} title="Home" />
 
                   <RouteItem to="#" icon={<SettingsIcon size={30} />} title="Settings" />
 
                   {boards.map(({ id, title }) => (
-                     <RouteItem key={id} boardId={id} to={`/board/${id}`} title={title} />
+                     <RouteItem key={id} boardId={id} to={`/app/board/${id}`} title={title} />
                   ))}
                   <RouteItem
                      to="#new-board"
@@ -50,7 +50,7 @@ const SideBar: FC<SideBarProps> = ({ boards, className, showSidebar }) => {
 
                <RouteItem
                   onClick={handleClick}
-                  to={!currentUser ? 'auth/login' : '/'}
+                  to={!currentUser ? '/auth/login' : '/app/home'}
                   title={currentUser ? 'Logout' : 'Login'}
                   icon={icon}
                   className="bg-gray-800 text-white hover:bg-gray-700 dark:hover:bg-gray-700 dark:bg-gray-900"

@@ -1,22 +1,20 @@
-import { useEffect } from 'react';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+// import { useEffect } from 'react';
+import { Link, Outlet } from 'react-router-dom';
 
 import KanbanBoard from '../../assets/scrum_board.svg';
-import { useAuthStore } from '../../store/auth.store';
+// import { useAuthStore } from '../../store/auth.store';
 import { toast } from 'sonner';
 
 const AuthLayout = () => {
-   const currentUser = useAuthStore((state) => state.currentUser);
-   const getUserByProvider = useAuthStore((state) => state.getUserByProvider);
-   const navigate = useNavigate();
+   // const currentUser = useAuthStore((state) => state.currentUser);
+   // // const getUserByProvider = useAuthStore((state) => state.getUserByProvider);
+   // const navigate = useNavigate();
 
-   useEffect(() => {
-      getUserByProvider();
-
-      if (currentUser) {
-         navigate('/');
-      }
-   }, [currentUser]);
+   // useEffect(() => {
+   //    if (currentUser) {
+   //       navigate('/');
+   //    }
+   // }, [currentUser]);
 
    const handleAlert = () => {
       toast.warning('You will have limitations within the application if you have not logged in.', {
