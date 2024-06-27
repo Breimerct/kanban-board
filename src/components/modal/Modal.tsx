@@ -1,7 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
 import { CircleXIcon } from '../icons/Icons';
+
+// components imports
 import Button from '../button/Button';
-import { ThemeColor, ButtonVariant } from '../../types';
 
 interface ModalProps {
    children: React.ReactNode;
@@ -80,8 +81,8 @@ const Modal: FC<ModalProps> = ({
                         <footer className="flex justify-end p-4 gap-2 border border-t-gray-300">
                            <Button
                               onClick={handleCancel}
-                              variant={ButtonVariant.OUTLINE}
-                              color={ThemeColor.NEGATIVE}
+                              variant="outline"
+                              color="negative"
                               className={`${buttonCancelClassName}`}
                            >
                               {buttonCancelText || 'Cancel'}
@@ -89,8 +90,8 @@ const Modal: FC<ModalProps> = ({
 
                            <Button
                               onClick={handleSuccess}
-                              variant={ButtonVariant.SOLID}
-                              color={ThemeColor.PRIMARY}
+                              variant="solid"
+                              color="primary"
                               className={`${buttonSuccessClassName}`}
                            >
                               {buttonSuccessText || 'Save'}

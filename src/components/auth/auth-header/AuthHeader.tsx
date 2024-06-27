@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import { useAuthStore } from '../../../store/auth.store';
-import { ButtonVariant, ThemeColor } from '../../../types';
 import Button from '../../button/Button';
 import { GitHubIcon, GoogleIcon } from '../../icons/Icons';
 
@@ -20,8 +19,8 @@ const AuthHeader: FC<AuthHeaderProps> = ({ title }) => {
             <hr className="h-[2px] w-full bg-gray-200" />
             <div className="flex justify-between items-center gap-2">
                <Button
-                  color={ThemeColor.PRIMARY}
-                  variant={ButtonVariant.SOLID}
+                  color="primary"
+                  variant="solid"
                   className="!rounded-full !p-0 !w-10 !h-10"
                   onClick={signInWithGitHub}
                >
@@ -29,8 +28,8 @@ const AuthHeader: FC<AuthHeaderProps> = ({ title }) => {
                </Button>
 
                <Button
-                  color={ThemeColor.PRIMARY}
-                  variant={ButtonVariant.SOLID}
+                  color="primary"
+                  variant="solid"
                   className="!rounded-full !p-0 !w-10 !h-10"
                   onClick={signInWithGoogle}
                >

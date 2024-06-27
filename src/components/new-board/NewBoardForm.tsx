@@ -2,7 +2,6 @@ import { FC } from 'react';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ThemeColor, ButtonVariant } from '../../types';
 import { setDB } from '../../plugins/firebase';
 
 import Button from '../button/Button';
@@ -77,10 +76,10 @@ const NewBoardForm: FC<NewBoardFormProps> = ({ onReset, onSave }) => {
          </div>
 
          <div className="flex gap-2 justify-end">
-            <Button variant={ButtonVariant.OUTLINE} color={ThemeColor.NEGATIVE} type="reset">
+            <Button variant="outline" color="negative" type="reset">
                Cancel
             </Button>
-            <Button variant={ButtonVariant.SOLID} color={ThemeColor.PRIMARY} type="submit">
+            <Button variant="solid" color="primary" type="submit">
                save
             </Button>
          </div>

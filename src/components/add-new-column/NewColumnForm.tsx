@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { ThemeColor, ButtonVariant } from '../../types';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -89,10 +88,10 @@ const NewColumnForm: FC<NewColumnFormProps> = ({ boardId, onReset, onSave }) => 
          </div>
 
          <div className="flex gap-2 justify-end mt-2">
-            <Button variant={ButtonVariant.OUTLINE} color={ThemeColor.NEGATIVE} type="reset">
+            <Button variant="outline" color="negative" type="reset">
                Cancel
             </Button>
-            <Button variant={ButtonVariant.SOLID} color={ThemeColor.PRIMARY} type="submit">
+            <Button variant="solid" color="primary" type="submit">
                save
             </Button>
          </div>

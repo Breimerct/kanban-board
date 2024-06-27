@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { ButtonVariant, ThemeColor } from '../../../types';
 import Button from '../../button/Button';
 import Input from '../../form-control/input/Input';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -73,7 +72,7 @@ const RegisterForm = () => {
                />
             </div>
 
-            <Button color={ThemeColor.PRIMARY} variant={ButtonVariant.SOLID}>
+            <Button color="primary" variant="solid">
                Register
             </Button>
 

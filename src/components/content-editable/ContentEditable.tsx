@@ -1,6 +1,5 @@
 import './ContentEditable.scss';
 import { FC, FormEvent, useState } from 'react';
-import { ButtonVariant, ThemeColor } from '../../types';
 
 import Button from '../button/Button';
 import { CancelIcon, CheckIcon } from '../icons/Icons';
@@ -59,15 +58,15 @@ const ContentEditable: FC<ContentEditableProps> = ({ onCancel, onSave, text, cla
             <div className="absolute right-0 z-40 flex gap-2">
                <Button
                   icon={<CheckIcon size={26} />}
-                  variant={ButtonVariant.SOLID}
-                  color={ThemeColor.PRIMARY}
+                  variant="solid"
+                  color="primary"
                   onClick={handleSave}
                   className="!p-1"
                />
                <Button
                   icon={<CancelIcon size={26} />}
-                  variant={ButtonVariant.SOLID}
-                  color={ThemeColor.PRIMARY}
+                  variant="solid"
+                  color="primary"
                   onClick={handleCancel}
                   className="!p-1"
                />

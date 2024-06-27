@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { ButtonVariant, ThemeColor } from '../../../types';
 
 import Input from '../../form-control/input/Input';
 import Button from '../../button/Button';
@@ -48,7 +47,7 @@ const LoginForm = () => {
                />
             </div>
 
-            <Button color={ThemeColor.PRIMARY} variant={ButtonVariant.SOLID} isLoading={authLoading} type="submit">
+            <Button color="primary" variant="solid" isLoading={authLoading} type="submit">
                Login
             </Button>
 

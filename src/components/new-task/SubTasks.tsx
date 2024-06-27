@@ -1,7 +1,6 @@
 import { FC, useState } from 'react';
 import { FieldErrors, type UseFormRegister } from 'react-hook-form';
 import { type FormDataTask } from './NewTaskForm';
-import { ButtonVariant, ThemeColor } from '../../types';
 
 import Button from '../button/Button';
 import { MinusIcon, PlusIcon } from '../icons/Icons';
@@ -23,8 +22,8 @@ const Subtasks: FC<SubtasksProps> = ({ errors, register }) => {
             <div className="flex gap-4">
                <Button
                   type="button"
-                  color={ThemeColor.PRIMARY}
-                  variant={ButtonVariant.OUTLINE}
+                  color="primary"
+                  variant="outline"
                   disabled={subtasksNumber === 10}
                   className="!rounded-full !p-0 h-8 w-8"
                   onClick={() => setSubtasksNumber((prev) => prev + 1)}
@@ -33,8 +32,8 @@ const Subtasks: FC<SubtasksProps> = ({ errors, register }) => {
 
                <Button
                   type="button"
-                  color={ThemeColor.PRIMARY}
-                  variant={ButtonVariant.OUTLINE}
+                  color="primary"
+                  variant="outline"
                   disabled={subtasksNumber === 0}
                   className="!rounded-full !p-0 h-8 w-8"
                   onClick={() => setSubtasksNumber((prev) => Math.max(0, prev - 1))}

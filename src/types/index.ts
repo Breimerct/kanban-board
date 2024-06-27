@@ -41,16 +41,16 @@ export type Subtask = {
 };
 
 export enum ThemeColor {
-   PRIMARY = 'primary',
-   SECONDARY = 'secondary',
-   NEGATIVE = 'negative',
-   WARNING = 'warning',
-   INFO = 'info'
+   primary = 'primary',
+   secondary = 'secondary',
+   negative = 'negative',
+   warning = 'warning',
+   info = 'info'
 }
 
 export enum ButtonVariant {
-   SOLID = 'solid',
-   OUTLINE = 'outline'
+   solid = 'solid',
+   outline = 'outline'
 }
 
 export type NewUser = {

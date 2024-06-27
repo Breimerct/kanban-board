@@ -1,7 +1,7 @@
 //#region imports
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { ThemeColor, ButtonVariant, type Status } from '../../types';
+import { type Status } from '../../types';
 
 // imports components
 import { PlusIcon } from '../../components/icons/Icons';
@@ -36,12 +36,7 @@ const Board = () => {
       <div className="h-full flex flex-col">
          <header className="p-4 pb-5 flex justify-end items-center">
             {statuses.length > 0 && (
-               <Button
-                  variant={ButtonVariant.SOLID}
-                  color={ThemeColor.PRIMARY}
-                  icon={<PlusIcon size={20} />}
-                  onClick={handleClickShowNewTask}
-               >
+               <Button variant="solid" color="primary" icon={<PlusIcon size={20} />} onClick={handleClickShowNewTask}>
                   Add New Task
                </Button>
             )}

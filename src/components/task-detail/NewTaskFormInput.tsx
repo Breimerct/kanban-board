@@ -1,4 +1,3 @@
-import { ButtonVariant, ThemeColor } from '../../types';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -64,9 +63,9 @@ const NewTaskFormInput: FC<NewTaskFormInputProps> = ({ taskId }) => {
                append={
                   <Button
                      className={`!p-0 !rounded-full w-7 h-7 ${buttonErrorClasses}`}
-                     variant={ButtonVariant.OUTLINE}
+                     variant="outline"
                      icon={<PlusIcon size={20} />}
-                     color={ThemeColor.PRIMARY}
+                     color="primary"
                      type="submit"
                   />
                }

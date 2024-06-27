@@ -1,6 +1,6 @@
 //#region Imports
 import { FC, useEffect, useState } from 'react';
-import { ThemeColor, ButtonVariant, Status } from '../../types';
+import { Status } from '../../types';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 
@@ -105,20 +105,10 @@ const NewTaskForm: FC<NewTaskFormProps> = ({ onReset, onSaved, optionsSelectStat
          </div>
 
          <div className="flex justify-center items-center gap-4 mt-4">
-            <Button
-               variant={ButtonVariant.OUTLINE}
-               color={ThemeColor.NEGATIVE}
-               type="reset"
-               className="block w-full rounded-3xl"
-            >
+            <Button variant="outline" color="negative" type="reset" className="block w-full rounded-3xl">
                cancel
             </Button>
-            <Button
-               variant={ButtonVariant.SOLID}
-               color={ThemeColor.PRIMARY}
-               type="submit"
-               className="block w-full rounded-3xl"
-            >
+            <Button variant="solid" color="primary" type="submit" className="block w-full rounded-3xl">
                Add Task
             </Button>
          </div>

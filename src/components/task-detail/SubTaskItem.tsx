@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { updateData } from '../../plugins/firebase';
-import { ButtonVariant, Subtask, ThemeColor } from '../../types';
+import { Subtask } from '../../types';
 
 import ContentEditable from '../content-editable/ContentEditable';
 import { TrashIcon } from '../icons/Icons';
@@ -34,8 +34,8 @@ const SubTaskItem: FC<SubTaskItemProps> = ({ subtask, taskId }) => {
          />
 
          <Button
-            variant={ButtonVariant.SOLID}
-            color={ThemeColor.NEGATIVE}
+            variant="solid"
+            color="negative"
             onClick={handleDeleteSubtask}
             className="absolute right-2 top-[50%] translate-y-[-60%] !p-1 rounded-full z-10 !w-7 !h-7 !animate-none"
             icon={<TrashIcon size={20} />}
