@@ -1,14 +1,16 @@
 import { ButtonHTMLAttributes, FC } from 'react';
 import { type ThemeColor, type ButtonVariant } from '../../types';
 import { colors } from '../../consts/buttonTheme';
+import { LoadingIcon } from '../icons/Icons';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    color: ThemeColor;
    variant: ButtonVariant;
    icon?: React.ReactNode;
+   isLoading?: boolean;
 }
 
-const Button: FC<ButtonProps> = ({ children, ...props }) => {
+const Button: FC<ButtonProps> = ({ children, isLoading, ...props }) => {
    const { color, variant } = props;
 
    const className =
@@ -27,7 +29,13 @@ const Button: FC<ButtonProps> = ({ children, ...props }) => {
          `}
       >
          {props?.icon}
-         {!!children && <span>{children}</span>}
+         {!!children && !isLoading ? (
+            <span>{children}</span>
+         ) : (
+            <span className="animate-spin">
+               <LoadingIcon size={30} />
+            </span>
+         )}
       </button>
    );
 };

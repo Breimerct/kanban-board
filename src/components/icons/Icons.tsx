@@ -302,3 +302,20 @@ export const SettingsIcon: FC<IconProps> = ({ className, size }) => (
       <path d="M18 9v11" />
    </svg>
 );
+
+export const LoadingIcon: FC<IconProps> = ({ className, size }) => (
+   <svg
+      className={className}
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+   >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3a9 9 0 1 0 9 9" />
+   </svg>
+);
