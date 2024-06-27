@@ -84,6 +84,7 @@ export const useAuthStore = create<AuthState & AuthAction>()(
 
          createAccount: async (newUser) => {
             try {
+               set({ authLoading: true });
                const result = await createAccount(newUser);
                set({ currentUser: result });
                console.log(result);
@@ -92,6 +93,8 @@ export const useAuthStore = create<AuthState & AuthAction>()(
                toast.error(FIREBASE_ERRORS[code]);
                console.error(FIREBASE_ERRORS[code], code, error);
                throw new Error(FIREBASE_ERRORS[code]);
+            } finally {
+               set({ authLoading: false });
             }
          },
 

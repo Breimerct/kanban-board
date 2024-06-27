@@ -8,6 +8,7 @@ import { useAuthStore } from '../../../store/auth.store';
 
 const RegisterForm = () => {
    const createUser = useAuthStore((state) => state.createAccount);
+   const authLoading = useAuthStore((state) => state.authLoading);
    const resolver = yupResolver(registerSchema);
 
    const {
@@ -72,7 +73,7 @@ const RegisterForm = () => {
                />
             </div>
 
-            <Button color="primary" variant="solid">
+            <Button color="primary" variant="solid" isLoading={authLoading}>
                Register
             </Button>
 
