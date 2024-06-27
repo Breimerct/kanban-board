@@ -60,7 +60,10 @@ export const signInWithEmailAndPass = async (email: string, password: string) =>
    const userRef = ref(db, rootPath);
    const userProfile = await get(userRef);
 
-   return userProfile.val() as User;
+   return {
+      ...user,
+      ...userProfile.val()
+   } as User;
 };
 
 export const createAccount = async ({ email, password, name }: NewUser) => {
@@ -70,6 +73,7 @@ export const createAccount = async ({ email, password, name }: NewUser) => {
    const pushRef = ref(db, rootPath);
 
    const newUser: Partial<User> = {
+      ...user,
       displayName: name.trim().toLowerCase(),
       email: user.email,
       emailVerified: user.emailVerified,
