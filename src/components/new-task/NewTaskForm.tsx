@@ -50,8 +50,17 @@ const NewTaskForm: FC<NewTaskFormProps> = ({ onReset, onSaved, optionsSelectStat
    } = useForm<FormDataTask>({ defaultValues, resolver });
 
    const onSubmit = handleSubmit((data) => {
+      data.subtasks = clearEmptySubtasks(data);
+
       onSaved?.(data);
    });
+
+   const clearEmptySubtasks = (data: FormDataTask) => {
+      const subtasks = data.subtasks || [];
+      const subtasksWithEmptyTitle = subtasks.filter((subtask) => !!subtask.title);
+
+      return subtasksWithEmptyTitle;
+   };
 
    const handleReset = () => {
       reset();
@@ -108,6 +117,7 @@ const NewTaskForm: FC<NewTaskFormProps> = ({ onReset, onSaved, optionsSelectStat
             <Button variant="outline" color="negative" type="reset" className="block w-full rounded-3xl">
                cancel
             </Button>
+
             <Button variant="solid" color="primary" type="submit" className="block w-full rounded-3xl">
                Add Task
             </Button>
