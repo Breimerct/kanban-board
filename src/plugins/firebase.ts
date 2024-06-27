@@ -10,6 +10,7 @@ import {
    signInWithRedirect,
    signInWithEmailAndPassword,
    createUserWithEmailAndPassword,
+   onAuthStateChanged,
    signOut,
    User
 } from 'firebase/auth';
@@ -48,6 +49,10 @@ export const getProviderResult = getRedirectResult.bind(null, auth);
 export const signInWithGitHub = signInWithRedirect.bind(null, auth, githubProvider);
 
 export const signInWithGoogle = signInWithRedirect.bind(null, auth, googleProvider);
+
+export const authStateChange = (callback: (user: User | null) => void) => {
+   onAuthStateChanged(auth, callback);
+};
 
 export const signInWithEmailAndPass = async (email: string, password: string) => {
    const { user } = await signInWithEmailAndPassword(auth, email, password);

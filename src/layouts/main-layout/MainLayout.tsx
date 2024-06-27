@@ -45,7 +45,9 @@ const MainLayout: FC = () => {
 
             <div className="flex items-center gap-4">
                {currentUser && (
-                  <div className="flex gap-10">
+                  <div className="flex items-center gap-3">
+                     <p className="capitalize font-semibold text-xl">{currentUser.displayName}</p>
+
                      <picture className="flex items-center gap-2">
                         <img
                            src={currentUser.photoURL || ''}

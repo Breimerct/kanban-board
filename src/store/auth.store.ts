@@ -43,9 +43,9 @@ export const useAuthStore = create<AuthState & AuthAction>()(
 
          signInWithEmailAndPass: async (email, pass) => {
             try {
+               set({ authLoading: true });
                const result = await signInWithEmailAndPass(email, pass);
                set({ currentUser: result });
-               console.log(result);
             } catch (error) {
                const { code } = error as FirebaseError;
 
@@ -55,6 +55,8 @@ export const useAuthStore = create<AuthState & AuthAction>()(
                }
 
                throw new Error(FIREBASE_ERRORS[code]);
+            } finally {
+               set({ authLoading: false });
             }
          },
 
@@ -70,7 +72,6 @@ export const useAuthStore = create<AuthState & AuthAction>()(
             try {
                set({ authLoading: true });
                const result = await getProviderResult();
-               console.log(result);
                result?.user && set({ currentUser: result?.user });
             } catch (error) {
                const { code } = error as FirebaseError;

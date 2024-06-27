@@ -10,7 +10,7 @@ const RootLayout = () => {
 
    useEffect(() => {
       if (currentUser && pathname.includes('/auth')) {
-         navigate('/app');
+         navigate('/app/home');
       }
 
       if (pathname === '/') {
