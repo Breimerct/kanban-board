@@ -11,6 +11,7 @@ import { useAuthStore } from '../../../store/auth.store';
 const LoginForm = () => {
    const resolver = yupResolver(loginSchema);
    const signInWithEmailAndPass = useAuthStore((state) => state.signInWithEmailAndPass);
+   const authLoading = useAuthStore((state) => state.authLoading);
 
    const {
       register,
@@ -47,7 +48,7 @@ const LoginForm = () => {
                />
             </div>
 
-            <Button color={ThemeColor.PRIMARY} variant={ButtonVariant.SOLID} type="submit">
+            <Button color={ThemeColor.PRIMARY} variant={ButtonVariant.SOLID} isLoading={authLoading} type="submit">
                Login
             </Button>
 

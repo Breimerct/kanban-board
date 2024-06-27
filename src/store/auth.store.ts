@@ -70,6 +70,7 @@ export const useAuthStore = create<AuthState & AuthAction>()(
             try {
                set({ authLoading: true });
                const result = await getProviderResult();
+               console.log(result);
                result?.user && set({ currentUser: result?.user });
             } catch (error) {
                const { code } = error as FirebaseError;
