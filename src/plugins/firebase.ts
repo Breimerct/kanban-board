@@ -106,14 +106,15 @@ export const updateData: UpdateData = (path, data) => {
    update(dbRef, updates);
 };
 
-export const setDB: SetDB = async (path, data) => {
+export const setDB: SetDB = async <T>(path: string, data: T) => {
    try {
       const rootPath = `users/${auth.currentUser?.uid}/${path}`;
       const pushRef = push(ref(db, rootPath));
+      const newData = { uid: pushRef.key, ...data };
 
-      await set(pushRef, { uid: pushRef.key, ...data });
+      await set(pushRef, newData);
 
-      return pushRef.key;
+      return newData as T;
    } catch (error) {
       console.error(error);
       return null;

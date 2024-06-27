@@ -2,11 +2,10 @@ import { FC } from 'react';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { setDB } from '../../plugins/firebase';
 
 import Button from '../button/Button';
 import Input from '../form-control/input/Input';
-import { useAuthStore } from '../../store/auth.store';
+import { useBoardStore } from '../../store/board.store';
 
 interface NewBoardFormProps {
    onReset?: () => void;
@@ -18,7 +17,7 @@ type FormData = {
 };
 
 const NewBoardForm: FC<NewBoardFormProps> = ({ onReset, onSave }) => {
-   const currentUser = useAuthStore((state) => state.currentUser);
+   const createBoard = useBoardStore((state) => state.createBoard);
 
    const defaultValues = {
       boardName: ''
@@ -46,10 +45,7 @@ const NewBoardForm: FC<NewBoardFormProps> = ({ onReset, onSave }) => {
 
    const onSaveNewBoard = async (data: FormData) => {
       try {
-         await setDB(`boards`, {
-            title: data.boardName,
-            userId: currentUser?.uid
-         });
+         createBoard(data.boardName);
          onSave && onSave();
       } catch (error) {
          console.error(error);
@@ -79,6 +75,7 @@ const NewBoardForm: FC<NewBoardFormProps> = ({ onReset, onSave }) => {
             <Button variant="outline" color="negative" type="reset">
                Cancel
             </Button>
+
             <Button variant="solid" color="primary" type="submit">
                save
             </Button>

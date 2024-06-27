@@ -11,7 +11,7 @@ type BoardState = {
 
 type BoardActions = {
    setBoard: (board: Board | null) => void;
-   createBoard: (board: Board) => void;
+   createBoard: (boardName: string) => void;
    updateBoard: (boardId: string, board: Board) => void;
    deleteBoard: (boardId: string) => void;
 };
@@ -30,10 +30,10 @@ export const useBoardStore = create<BoardState & BoardActions>()(
 
          setBoard: (board) => set({ board }),
 
-         createBoard: (board) => {
-            const updatedBoards = createBoard(board, get().boards, currentUser);
+         createBoard: async (boardName) => {
+            const updateBoard = await createBoard(boardName, get().boards, currentUser);
 
-            set({ boards: updatedBoards });
+            set({ boards: updateBoard });
          },
 
          updateBoard: (boardId, board) => {

@@ -1,16 +1,23 @@
 import { User } from 'firebase/auth';
-import { updateData } from '../plugins/firebase';
+import { setDB, updateData } from '../plugins/firebase';
 import { Board } from '../types';
 
-export const createBoard = (board: Board, boards: Board[], currentUser: User | null) => {
-   const updatedBoards = [...boards, board];
-
+export const createBoard = async (boardName: string, boards: Board[], currentUser: User | null) => {
    if (currentUser) {
-      const path = `boards/${currentUser.uid}/${board.id}`;
-      updateData(path, board);
+      const newData = await setDB(`boards`, {
+         title: boardName,
+         userId: currentUser?.uid
+      });
+
+      return [...boards, newData] as Board[];
    }
 
-   return updatedBoards;
+   const newBoard: Partial<Board> = {
+      id: crypto.randomUUID(),
+      title: boardName
+   };
+
+   return [...boards, newBoard] as Board[];
 };
 
 export const updateBoard = (boardId: string, board: Board, boards: Board[], currentUser: User | null) => {

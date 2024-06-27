@@ -1,6 +1,6 @@
 import { DataSnapshot, Unsubscribe } from 'firebase/database';
 
-export type SetDB = <T>(path: string, data: T) => Promise<string | null>;
+export type SetDB = <T>(path: string, data: T) => Promise<T | null>;
 
 export type GetDB = (
    path: string,

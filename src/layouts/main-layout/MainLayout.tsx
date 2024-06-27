@@ -4,16 +4,16 @@ import { Board } from '../../types';
 import { FC, useEffect, useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import useGetCollection from '../../hooks/useGetCollection';
+import { useAuthStore } from '../../store/auth.store';
 
 import KanbanBoard from '/kanban.svg';
 import KanbanBoardDark from '/kanban-dark-mode.svg';
 import SideBar from '../../components/sidebar/SideBar';
 import NewBoard from '../../components/new-board/NewBoard';
-import { useAuthStore } from '../../store/auth.store';
 //#endregion
 
 const MainLayout: FC = () => {
-   const boards = useGetCollection({ path: `boards` }) as Board[];
+   const boards = useGetCollection({ path: `boards`, storeName: 'board' }) as Board[];
    const currentUser = useAuthStore((state) => state.currentUser);
    const [showNewBoard, setShowNewBoard] = useState(false);
    const [showSidebar, setShowSidebar] = useState(false);
