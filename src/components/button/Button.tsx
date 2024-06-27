@@ -10,7 +10,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    isLoading?: boolean;
 }
 
-const Button: FC<ButtonProps> = ({ children, isLoading = false, disabled, ...props }) => {
+const Button: FC<ButtonProps> = ({ children, isLoading = false, disabled, icon, ...props }) => {
    const { color, variant } = props;
 
    const className =
@@ -29,7 +29,7 @@ const Button: FC<ButtonProps> = ({ children, isLoading = false, disabled, ...pro
          `}
          disabled={isLoading || disabled}
       >
-         {props?.icon}
+         {!!icon && !isLoading && icon}
 
          {!!children && !isLoading && <span>{children}</span>}
 
